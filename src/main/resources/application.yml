@@ -1,0 +1,44 @@
+server:
+    port: ${self.spring.server.port}
+    servlet:
+        context-path: ${self.spring.server.context-path}
+spring:
+    profiles:
+        active: dev
+    datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://${self.spring.datasource.url}:${self.spring.datasource.port}/${self.spring.datasource.database}?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+        username: ${self.spring.datasource.username}
+        password: ${self.spring.datasource.password}
+    data:
+        redis:
+            host: ${self.spring.redis.host}
+            port: ${self.spring.redis.port}
+            database: ${self.spring.redis.database}
+            password: ${self.spring.redis.password}
+            connect-timeout: ${self.spring.redis.timeout}
+mybatis-plus:
+    global-config:
+        db-config:
+            logic-delete-field: is_deleted
+            logic-delete-value: 1
+            logic-not-delete-value: 0
+    configuration:
+        map-underscore-to-camel-case: true
+        cache-enabled: false
+        log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+springdoc:
+    swagger-ui:
+        path: /swagger-ui.html
+        tags-sorter: alpha
+        operations-sorter: alpha
+    api-docs:
+        path: /v3/api-docs
+    group-configs:
+        -   group: 'default'
+            paths-to-match: '/**'
+            packages-to-scan: com.xiaominfo.knife4j.demo.web
+knife4j:
+    enable: true
+    setting:
+        language: zh_cn
