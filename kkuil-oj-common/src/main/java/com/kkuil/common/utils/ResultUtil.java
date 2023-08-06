@@ -45,6 +45,10 @@ public class ResultUtil<DataType> {
         return new ResultUtil<>(HttpStatus.BAD_REQUEST, "error", null);
     }
 
+    public static ResultUtil error(String message) {
+        return new ResultUtil<>(HttpStatus.BAD_REQUEST, message, null);
+    }
+
     public static <DT> ResultUtil<DT> error(DT data) {
         return new ResultUtil<>(HttpStatus.BAD_REQUEST, "error", data);
     }

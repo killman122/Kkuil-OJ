@@ -1,6 +1,6 @@
-import {defineStore} from "pinia"
-import {auth} from "@/api/user"
-import {USER_LOCAL_STORAGE_KEY} from "@/constant/user"
+import { defineStore } from "pinia"
+import { auth } from "@/api/user"
+import { USER_LOCAL_STORAGE_KEY } from "@/constant/user"
 
 export const useUserStore = defineStore("user", {
     state(): { info: Store.UserStore.UserInfo } {
@@ -23,9 +23,7 @@ export const useUserStore = defineStore("user", {
                     USER_LOCAL_STORAGE_KEY,
                     result.data.token as string
                 )
-                return true
             }
-            return false
         }
     },
     getters: {

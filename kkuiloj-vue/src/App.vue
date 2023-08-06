@@ -21,11 +21,16 @@ router.beforeEach(
         from: RouteLocationNormalized,
         next: NavigationGuardNext
     ) => {
-        if (!userStore.isLogin) {
-            await userStore.setUserInfo()
-        }
         // 判断是否需要登录
         if (to.meta.isNeedLogin) {
+            if (!userStore.isLogin) {
+                try {
+                    await userStore.setUserInfo()
+                } catch (error) {
+                    console.log(error)
+                    next({ name: "login" })
+                }
+            }
             if (!userStore.isLogin) {
                 MessageUtil.error({
                     content: "请先登录",
