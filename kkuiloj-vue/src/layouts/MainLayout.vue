@@ -1,13 +1,16 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import MainNavigation from "@/layouts/components/MainNavigation.vue"
+</script>
 
 <template>
-    <div class="layout">
-        <img
-            src="@/assets/images/log.png"
-            alt="logo"
-            class="w-[60px] h-[70px]"
-        />
-    </div>
+  <div class="layout">
+    <header class="header">
+      <MainNavigation/>
+    </header>
+    <p class="content">
+      <RouterView/>
+    </p>
+  </div>
 </template>
 
-<style scoped></style>
+<style scoped lang="scss"></style>

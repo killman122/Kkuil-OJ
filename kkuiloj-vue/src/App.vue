@@ -1,9 +1,60 @@
 <script setup lang="ts">
-import BasicLayout from "@/layouts/BasicLayout.vue"
+import { useUserStore } from "@/stores/user"
+import { router } from "@/router"
+import MessageUtil from "@/utils/MessageUtil"
+import type { NavigationGuardNext, RouteLocationNormalized } from "vue-router"
+
+// 为了让 TS 识别 meta 字段
+type TRouteLocationNormalized = RouteLocationNormalized & {
+    meta: {
+        isNeedLogin?: boolean
+        isNeedAuth?: boolean
+    }
+}
+
+const userStore = useUserStore()
+
+// 全局前置守卫
+router.beforeEach(
+    async (
+        to: TRouteLocationNormalized,
+        from: RouteLocationNormalized,
+        next: NavigationGuardNext
+    ) => {
+        if (!userStore.isLogin) {
+            await userStore.setUserInfo()
+        }
+        // 判断是否需要登录
+        if (to.meta.isNeedLogin) {
+            if (!userStore.isLogin) {
+                MessageUtil.error({
+                    content: "请先登录",
+                    showIcon: true,
+                    closable: true,
+                    duration: 3000
+                })
+                return next({ name: "login" })
+            }
+            // 判断是否需要授权
+            if (to.meta.isNeedAuth) {
+                if (!userStore.isAuth) {
+                    MessageUtil.error({
+                        content: "请先授权",
+                        showIcon: true,
+                        closable: true,
+                        duration: 3000
+                    })
+                    return next({ name: "no-auth" })
+                }
+            }
+        }
+        return next()
+    }
+)
 </script>
 
 <template>
     <div id="app">
-        <BasicLayout />
+        <RouterView />
     </div>
 </template>

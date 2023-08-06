@@ -1,4 +1,4 @@
-package com.kkuil.kkuilojuserservice.aspect;
+package com.kkuil.common.aspect;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -7,7 +7,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
 
 /**
- * @Author kkuil
+ * @Author Kkuil
  * @Date 2023/07/29 20:00
  * @Description 频率控制器切面
  */
