@@ -9,9 +9,9 @@
         <result property="username" column="username" jdbcType="VARCHAR"/>
         <result property="password" column="password" jdbcType="VARCHAR"/>
         <result property="role" column="role" jdbcType="OTHER"/>
-        <result property="is_deleted" column="is_deleted" jdbcType="TINYINT"/>
-        <result property="created_time" column="created_time" jdbcType="TIMESTAMP"/>
-        <result property="modified_time" column="modified_time" jdbcType="TIMESTAMP"/>
+        <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
+        <result property="createdTime" column="created_time" jdbcType="TIMESTAMP"/>
+        <result property="modifiedTime" column="modified_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">

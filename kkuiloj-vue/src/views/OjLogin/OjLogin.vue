@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { reactive } from "vue"
+import _ from "lodash"
 import MessageUtil from "@/utils/MessageUtil"
 import CryptoUtil from "@/utils/CryptoUtil"
 import { login } from "@/api/user"
@@ -17,23 +18,22 @@ const userStore = useUserStore()
 /**
  * @description 登录
  */
-const handleLogin = async () => {
+const handleLogin = _.throttle(async () => {
+    MessageUtil.clear()
     if (userInfo.username.trim() === "") {
         return MessageUtil.error("用户名不能为空")
     }
     if (userInfo.password.trim() === "") {
         return MessageUtil.error("密码不能为空")
     }
-    MessageUtil.loading({
-        content: "登录中...",
-        duration: 10000
-    })
+    MessageUtil.loading("登录中...")
     const encryptPwd = CryptoUtil.md5(userInfo.password)
     const result: GlobalType.Result<string> = await login({
         ...userInfo,
         password: encryptPwd
     })
     if (!result.data) {
+        MessageUtil.clear()
         return MessageUtil.error(result.message ?? "登录失败")
     }
     MessageUtil.clear()
@@ -44,7 +44,7 @@ const handleLogin = async () => {
     })
     // 保存token
     localStorage.setItem(USER_LOCAL_STORAGE_KEY, result.data)
-}
+}, 500)
 
 /**
  * @description 重置用户填写信息

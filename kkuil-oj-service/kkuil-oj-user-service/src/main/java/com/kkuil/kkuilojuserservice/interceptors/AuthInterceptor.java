@@ -16,7 +16,7 @@ import static com.kkuil.common.constant.UserConst.USER_TOKEN_SECRET;
  * @Date 2023/07/29 20:00
  * @Description 登录拦截器
  */
-public class LoginInterceptor implements HandlerInterceptor {
+public class AuthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws AccessException {
 
@@ -27,7 +27,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         try {
             // 2. 验证token是否有效
             Claims userInfo = JwtUtils.parse(token, USER_TOKEN_SECRET);
-            AssertUtil.isObjNull(userInfo, "用户未登录");
+            AssertUtil.isObjNull(userInfo, "无效token");
 
             return true;
         } catch (Exception e) {

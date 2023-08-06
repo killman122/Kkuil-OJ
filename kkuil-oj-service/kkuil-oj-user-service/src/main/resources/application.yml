@@ -46,6 +46,8 @@ cors:
     mapping: ${self.cors.mapping}
     allowed-origins: ${self.cors.allowed-origins}
     allowed-methods: ${self.cors.allowed-methods}
+    exposed-headers: ${self.cors.exposed-headers}
+    allowed-headers: ${self.cors.allowed-headers}
     allow-credentials: ${self.cors.allow-credentials}
     max-age: ${self.cors.max-age}
 #logging:

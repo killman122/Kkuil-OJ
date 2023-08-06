@@ -1,4 +1,4 @@
-import type {RouteRecordRaw} from "vue-router"
+import type { RouteRecordRaw } from "vue-router"
 
 type RouteRecordRawInfo = RouteRecordRaw & {
     meta: Route.RouteMetaRaw
@@ -29,15 +29,6 @@ export const navigation: RouteRecordRawInfo[] = [
         },
         component: () =>
             import("@/views/Navigation/OjDashboard/OjDashboard.vue")
-    },
-    {
-        path: "online-judge",
-        name: "online-judge",
-        meta: {
-            name: "在线判题",
-            isNeedLogin: true
-        },
-        component: () => import("@/views/Navigation/OjJudge/OjJudge.vue")
     }
 ]
 
@@ -48,7 +39,19 @@ export const routes: RouteRecordRaw[] = [
         name: NAVIGATION_PARENT_NAME,
         component: () => import("@/layouts/MainLayout.vue"),
         redirect: "/dashboard",
-        children: navigation
+        children: [
+            ...navigation,
+            {
+                path: "online-judge/:id",
+                name: "online-judge",
+                meta: {
+                    name: "在线判题",
+                    isNeedLogin: true
+                },
+                component: () =>
+                    import("@/views/Navigation/OjJudge/OjJudge.vue")
+            }
+        ]
     },
     {
         path: "/login",

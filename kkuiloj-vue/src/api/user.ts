@@ -1,5 +1,8 @@
 import request from "@/utils/request"
-import {USER_LOCAL_STORAGE_KEY, USER_REQUEST_HEADER_KEY} from "@/constant/user"
+import {
+    USER_LOCAL_STORAGE_KEY,
+    USER_REQUEST_HEADER_KEY
+} from "@/constant/user"
 
 /**
  * @description 登录

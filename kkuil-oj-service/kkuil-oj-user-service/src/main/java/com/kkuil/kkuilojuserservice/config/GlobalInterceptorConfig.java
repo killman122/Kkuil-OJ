@@ -1,7 +1,7 @@
 package com.kkuil.kkuilojuserservice.config;
 
 import cn.hutool.core.util.BooleanUtil;
-import com.kkuil.kkuilojuserservice.interceptors.LoginInterceptor;
+import com.kkuil.kkuilojuserservice.interceptors.AuthInterceptor;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
@@ -27,8 +27,10 @@ public class GlobalInterceptorConfig implements WebMvcConfigurer {
     private String mapping;
     private String allowedOrigins;
     private String allowedMethods;
+    private String allowedHeaders;
+    private String exposedHeaders;
     private boolean allowCredentials;
-    private String maxAge;
+    private long maxAge;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -36,17 +38,18 @@ public class GlobalInterceptorConfig implements WebMvcConfigurer {
 
         AUTH_WHITE_LIST.add("/login");
 
-        registry.addInterceptor(new LoginInterceptor())
+        registry.addInterceptor(new AuthInterceptor())
                 .excludePathPatterns(AUTH_WHITE_LIST);
     }
-
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         String[] methods = allowedMethods.split(METHOD_SPLIT_CHAR);
         registry.addMapping(mapping)
                 .allowedOrigins(allowedOrigins)
                 .allowedMethods(methods)
-                .maxAge(Long.parseLong(maxAge))
-                .allowCredentials(BooleanUtil.isTrue(allowCredentials));
+                .allowedHeaders(allowedHeaders)
+                .exposedHeaders(exposedHeaders)
+                .maxAge(maxAge)
+                .allowCredentials(true);
     }
 }
