@@ -22,6 +22,11 @@ import java.util.List;
 @Data
 public class GlobalInterceptorConfig implements WebMvcConfigurer {
 
+    private static final List<String> AUTH_WHITE_LIST = new ArrayList<>();
+    static {
+        AUTH_WHITE_LIST.add("/login");
+    }
+
     public static final String METHOD_SPLIT_CHAR = ",";
 
     private String mapping;
@@ -34,10 +39,6 @@ public class GlobalInterceptorConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        List<String> AUTH_WHITE_LIST = new ArrayList<>();
-
-        AUTH_WHITE_LIST.add("/login");
-
         registry.addInterceptor(new AuthInterceptor())
                 .excludePathPatterns(AUTH_WHITE_LIST);
     }
@@ -47,9 +48,6 @@ public class GlobalInterceptorConfig implements WebMvcConfigurer {
         registry.addMapping(mapping)
                 .allowedOrigins(allowedOrigins)
                 .allowedMethods(methods)
-                .allowedHeaders(allowedHeaders)
-                .exposedHeaders(exposedHeaders)
-                .maxAge(maxAge)
-                .allowCredentials(true);
+                .allowedHeaders(allowedHeaders);
     }
 }

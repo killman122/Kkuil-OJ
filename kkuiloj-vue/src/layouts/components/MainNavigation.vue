@@ -60,7 +60,7 @@ const handleSelect = (value: string) => {
         <img
             src="/assets/logo.png"
             alt="logo"
-            title="logo"
+            title="回到首页"
             class="h-[45px] cursor-pointer"
             @click="switchRoute('layout')"
         />

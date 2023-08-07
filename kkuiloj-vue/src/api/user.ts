@@ -12,7 +12,7 @@ export function login(
     data: Request.User.Login
 ): Promise<GlobalType.Result<string>> {
     return request({
-        url: "/login",
+        url: "/user/login",
         method: "POST",
         data
     })
@@ -23,7 +23,7 @@ export function login(
  */
 export function auth(): Promise<GlobalType.Result<Store.UserStore.UserInfo>> {
     return request({
-        url: "/auth",
+        url: "/user/auth",
         method: "GET",
         headers: {
             [USER_REQUEST_HEADER_KEY]: localStorage.getItem(

@@ -1,0 +1,37 @@
+server:
+    port: ${self.spring.server.port}
+    servlet:
+        context-path: ${self.spring.server.context-path}
+spring:
+    profiles:
+        active: dev
+    main:
+        web-application-type: reactive
+    cloud:
+        gateway:
+            globalcors:
+                cors-configurations:
+                    '[/**]':
+                        allowedOrigins: ${self.spring.cloud.gateway.globalcors.cors-configurations.allowedOrigins}
+                        allowedHeaders: ${self.spring.cloud.gateway.globalcors.cors-configurations.allowedHeaders}
+                        allowedMethods:
+                            - GET
+                            - POST
+                            - PUT
+                            - DELETE
+            routes:
+                -   id: user-service
+                    uri: http://127.0.0.1:3171
+                    predicates:
+                        -   name: Path
+                            args:
+                                pattern: /api/user/**
+                -   id: question-service
+                    uri: http://127.0.0.1:3172
+                    predicates:
+                        -   name: Path
+                            args:
+                                pattern: /api/question/**
+logging:
+    level:
+        root: debug

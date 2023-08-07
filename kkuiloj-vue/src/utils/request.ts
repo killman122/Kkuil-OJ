@@ -8,9 +8,14 @@ const BASE_PREFIX: string = import.meta.env.VITE_REQUEST_BASE_PREFIX
 console.log(BASE_URL, BASE_PORT, BASE_TIMEOUT, BASE_PREFIX)
 
 const request = axios.create({
-    // baseURL: BASE_URL + ":" + BASE_PORT + BASE_PREFIX,
-    baseURL: "/api",
-    timeout: BASE_TIMEOUT
+    baseURL: BASE_URL + ":" + BASE_PORT + BASE_PREFIX,
+    // baseURL: "/api",
+    timeout: BASE_TIMEOUT,
+    headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
+        "Access-Control-Allow-Headers": "*"
+    }
 })
 
 // 请求拦截器

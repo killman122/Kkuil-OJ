@@ -22,13 +22,13 @@ export default defineConfig({
         })
     ],
     server: {
-        port: 3170,
-        proxy: {
-            "^/api": {
-                target: "http://127.0.0.1:3171",
-                changeOrigin: true
-            }
-        }
+        port: 3170
+        // proxy: {
+        //     "^/api": {
+        //         target: "http://127.0.0.1:7130",
+        //         changeOrigin: true
+        //     }
+        // }
     },
     // 为了在 .env 文件中使用 import.meta.env.VITE_XXX 的形式
     envPrefix: "VITE_",

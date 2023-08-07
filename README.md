@@ -34,6 +34,7 @@
 ## 后端技术栈
 
 - 💚 Spring Boot 3.x：使用最新版本的Spring Boot进行开发。
+- 📦 SpringCloud：使用SpringCloud进行微服务开发。
 - 📝 MyBatis`：使用MyBatis进行数据库操作。
 - 📦 MyBatis Plus：使用MyBatis Plus提供更多便捷的数据库操作功能。
 - 🔒 Jasypt：使用Jasypt进行加密和解密操作。
