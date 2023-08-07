@@ -1,8 +1,14 @@
 <script setup lang="ts">
 import moment from "moment"
 import { useRouter } from "vue-router"
+import { reactive } from "vue"
 
 const $router = useRouter()
+
+const pageInfo = reactive({
+    current: 1,
+    pageSize: 10
+})
 
 const list = [
     {
@@ -101,6 +107,132 @@ const list = [
         post_count: 80,
         pass_rate: 0.6,
         post_time: "2021-10-07 00:00:00"
+    },
+    {
+        id: 7,
+        cn_name: "罗马数字转整数",
+        en_name: "Roman to Integer",
+        difficulty: 1,
+        question_source: "LeetCode",
+        question_icon:
+            "https://assets.leetcode-cn.com/aliyun-lc-upload/assets/static/og-default.png",
+        question_source_link:
+            "https://leetcode-cn.com/problems/roman-to-integer/",
+        post_count: 80,
+        pass_rate: 0.6,
+        post_time: "2021-10-07 00:00:00"
+    },
+    {
+        id: 7,
+        cn_name: "罗马数字转整数",
+        en_name: "Roman to Integer",
+        difficulty: 1,
+        question_source: "LeetCode",
+        question_icon:
+            "https://assets.leetcode-cn.com/aliyun-lc-upload/assets/static/og-default.png",
+        question_source_link:
+            "https://leetcode-cn.com/problems/roman-to-integer/",
+        post_count: 80,
+        pass_rate: 0.6,
+        post_time: "2021-10-07 00:00:00"
+    },
+    {
+        id: 7,
+        cn_name: "罗马数字转整数",
+        en_name: "Roman to Integer",
+        difficulty: 1,
+        question_source: "LeetCode",
+        question_icon:
+            "https://assets.leetcode-cn.com/aliyun-lc-upload/assets/static/og-default.png",
+        question_source_link:
+            "https://leetcode-cn.com/problems/roman-to-integer/",
+        post_count: 80,
+        pass_rate: 0.6,
+        post_time: "2021-10-07 00:00:00"
+    },
+    {
+        id: 7,
+        cn_name: "罗马数字转整数",
+        en_name: "Roman to Integer",
+        difficulty: 1,
+        question_source: "LeetCode",
+        question_icon:
+            "https://assets.leetcode-cn.com/aliyun-lc-upload/assets/static/og-default.png",
+        question_source_link:
+            "https://leetcode-cn.com/problems/roman-to-integer/",
+        post_count: 80,
+        pass_rate: 0.6,
+        post_time: "2021-10-07 00:00:00"
+    },
+    {
+        id: 7,
+        cn_name: "罗马数字转整数",
+        en_name: "Roman to Integer",
+        difficulty: 1,
+        question_source: "LeetCode",
+        question_icon:
+            "https://assets.leetcode-cn.com/aliyun-lc-upload/assets/static/og-default.png",
+        question_source_link:
+            "https://leetcode-cn.com/problems/roman-to-integer/",
+        post_count: 80,
+        pass_rate: 0.6,
+        post_time: "2021-10-07 00:00:00"
+    },
+    {
+        id: 7,
+        cn_name: "罗马数字转整数",
+        en_name: "Roman to Integer",
+        difficulty: 1,
+        question_source: "LeetCode",
+        question_icon:
+            "https://assets.leetcode-cn.com/aliyun-lc-upload/assets/static/og-default.png",
+        question_source_link:
+            "https://leetcode-cn.com/problems/roman-to-integer/",
+        post_count: 80,
+        pass_rate: 0.6,
+        post_time: "2021-10-07 00:00:00"
+    },
+    {
+        id: 7,
+        cn_name: "罗马数字转整数",
+        en_name: "Roman to Integer",
+        difficulty: 1,
+        question_source: "LeetCode",
+        question_icon:
+            "https://assets.leetcode-cn.com/aliyun-lc-upload/assets/static/og-default.png",
+        question_source_link:
+            "https://leetcode-cn.com/problems/roman-to-integer/",
+        post_count: 80,
+        pass_rate: 0.6,
+        post_time: "2021-10-07 00:00:00"
+    },
+    {
+        id: 7,
+        cn_name: "罗马数字转整数",
+        en_name: "Roman to Integer",
+        difficulty: 1,
+        question_source: "LeetCode",
+        question_icon:
+            "https://assets.leetcode-cn.com/aliyun-lc-upload/assets/static/og-default.png",
+        question_source_link:
+            "https://leetcode-cn.com/problems/roman-to-integer/",
+        post_count: 80,
+        pass_rate: 0.6,
+        post_time: "2021-10-07 00:00:00"
+    },
+    {
+        id: 7,
+        cn_name: "罗马数字转整数",
+        en_name: "Roman to Integer",
+        difficulty: 1,
+        question_source: "LeetCode",
+        question_icon:
+            "https://assets.leetcode-cn.com/aliyun-lc-upload/assets/static/og-default.png",
+        question_source_link:
+            "https://leetcode-cn.com/problems/roman-to-integer/",
+        post_count: 80,
+        pass_rate: 0.6,
+        post_time: "2021-10-07 00:00:00"
     }
 ]
 
@@ -181,6 +313,12 @@ const gotoQuestionDetail = (e: Event) => {
                 </div>
             </li>
         </ul>
+        <a-pagination
+            :total="list.length"
+            :current="pageInfo.current"
+            class="flex-center"
+            :page-size="pageInfo.pageSize"
+        />
     </div>
 </template>
 

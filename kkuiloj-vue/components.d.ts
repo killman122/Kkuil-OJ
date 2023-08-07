@@ -14,6 +14,7 @@ declare module 'vue' {
     ADropdown: typeof import('@arco-design/web-vue')['Dropdown']
     AMenu: typeof import('@arco-design/web-vue')['Menu']
     AMenuItem: typeof import('@arco-design/web-vue')['MenuItem']
+    APagination: typeof import('@arco-design/web-vue')['Pagination']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

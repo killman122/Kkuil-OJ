@@ -39,9 +39,7 @@ const handleLogin = _.throttle(async () => {
     MessageUtil.clear()
     MessageUtil.success("登录成功")
     handleReset()
-    await $router.push({
-        name: "layout"
-    })
+    await $router.back()
     // 保存token
     localStorage.setItem(USER_LOCAL_STORAGE_KEY, result.data)
 }, 500)

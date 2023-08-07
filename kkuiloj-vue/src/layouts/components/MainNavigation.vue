@@ -56,16 +56,15 @@ const handleSelect = (value: string) => {
 </script>
 
 <template>
-    <div class="navigation border-b-[1px] flex items-center">
+    <div class="navigation border-b-[1px] flex items-center px-[10px]">
+        <img
+            src="/assets/logo.png"
+            alt="logo"
+            title="logo"
+            class="h-[45px] cursor-pointer"
+            @click="switchRoute('layout')"
+        />
         <a-menu mode="horizontal" :default-selected-keys="[navigation[0].name]">
-            <a-menu-item key="0" class="h-[45px]" disabled>
-                <img
-                    src="/assets/logo.png"
-                    alt="logo"
-                    title="logo"
-                    class="w-full h-full"
-                />
-            </a-menu-item>
             <a-menu-item
                 v-for="{ name, meta } in navigation"
                 :key="name"
@@ -76,7 +75,7 @@ const handleSelect = (value: string) => {
         </a-menu>
         <a-dropdown @select="handleSelect">
             <a-avatar
-                class="mr-[10px] cursor-pointer"
+                class="cursor-pointer"
                 :title="userStore.info.username ?? '未登录'"
             >
                 {{ userStore.info.username ?? "未登录" }}

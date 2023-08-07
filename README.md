@@ -13,6 +13,7 @@
 - 📦 Arco Design UI库：使用Arco Design提供UI组件。
 - 📦 Axios：使用Axios进行请求。
 - 📦 Lodash：使用Lodash提供更多实用的JS工具类。
+- 📦 vue-codemirror 使用 vue-codemirror 提供代码编辑器。
 - 🎨 Tailwindcss：使用Tailwindcss作为CSS框架。
 - 📝 Eslint：使用Eslint进行代码检查。
 - 📝 Prettier：使用Prettier进行代码美化。
