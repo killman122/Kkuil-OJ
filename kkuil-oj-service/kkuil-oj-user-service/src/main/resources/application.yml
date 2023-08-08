@@ -42,11 +42,6 @@ knife4j:
     enable: true
     setting:
         language: zh_cn
-cors:
-    mapping: ${self.cors.mapping}
-    allowed-origins: ${self.cors.allowed-origins}
-    allowed-methods: ${self.cors.allowed-methods}
-    allowed-headers: ${self.cors.allowed-headers}
 logging:
     level:
         root: debug

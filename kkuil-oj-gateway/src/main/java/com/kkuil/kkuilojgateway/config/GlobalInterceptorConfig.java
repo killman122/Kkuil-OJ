@@ -1,10 +1,9 @@
-package com.kkuil.kkuilojquestionservice.config;
+package com.kkuil.kkuilojgateway.config;
 
-import com.kkuil.kkuilojquestionservice.interceptors.AuthInterceptor;
+import com.kkuil.kkuilojgateway.interceptors.AuthInterceptor;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -31,4 +30,5 @@ public class GlobalInterceptorConfig implements WebMvcConfigurer {
         registry.addInterceptor(new AuthInterceptor())
                 .excludePathPatterns(AUTH_WHITE_LIST);
     }
+
 }

@@ -1,11 +1,9 @@
 package com.kkuil.kkuilojuserservice.config;
 
-import cn.hutool.core.util.BooleanUtil;
 import com.kkuil.kkuilojuserservice.interceptors.AuthInterceptor;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -27,27 +25,10 @@ public class GlobalInterceptorConfig implements WebMvcConfigurer {
         AUTH_WHITE_LIST.add("/login");
     }
 
-    public static final String METHOD_SPLIT_CHAR = ",";
-
-    private String mapping;
-    private String allowedOrigins;
-    private String allowedMethods;
-    private String allowedHeaders;
-    private String exposedHeaders;
-    private boolean allowCredentials;
-    private long maxAge;
-
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new AuthInterceptor())
                 .excludePathPatterns(AUTH_WHITE_LIST);
     }
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        String[] methods = allowedMethods.split(METHOD_SPLIT_CHAR);
-        registry.addMapping(mapping)
-                .allowedOrigins(allowedOrigins)
-                .allowedMethods(methods)
-                .allowedHeaders(allowedHeaders);
-    }
+
 }

@@ -12,27 +12,32 @@ const LANG_MAP_EDITOR = {
     javascript: javascript(),
     java: java()
 }
+
+// 编辑器默认扩展
 const DEFAULT_EXTENSIONS = [oneDark]
 const view: Ref<EditorState | undefined> = ref<EditorState>()
+
 // 编辑器配置
 const editorConfig = reactive({
     tabSize: 4,
     autofocus: true,
     indentTabSize: true,
     placeholder: "请开始你的答题......",
-    extensions: [javascript(), ...DEFAULT_EXTENSIONS]
+    extensions: [javascript(), ...DEFAULT_EXTENSIONS],
+    isShowResult: false
 })
+
 // 编辑器信息
 const infos = reactive({
     cursor: 0,
     length: 0,
     lines: 0
 })
+
 // 用户代码提交的信息
 const commitInfo = ref({
     code: `console.log('Hello, world!') \n dwadad`,
-    lang: "javascript",
-    isShowResult: true
+    lang: "javascript"
 })
 
 /**
@@ -69,7 +74,7 @@ const switchLang = (e: InputEventDefinition) => {
  * @description 显示运行结果
  */
 const showRunResult = () => {
-    commitInfo.value.isShowResult = !commitInfo.value.isShowResult
+    editorConfig.isShowResult = !editorConfig.isShowResult
 }
 
 watch(
@@ -88,10 +93,10 @@ watch(
 </script>
 
 <template>
-    <div class="lang-editor flex flex-col" style="height: calc(100vh - 60px)">
-        <nav
-            class="h-[40px] flex items-center bg-[#22272e] text-[#fff] text-[13px]"
-        >
+    <div
+        class="lang-editor flex flex-col text-[#fff] text-[13px] h-[calc(100vh-60px)]"
+    >
+        <nav class="h-[40px] flex items-center bg-[#22272e]">
             <div class="item ml-[10px]">
                 <label for="lang">语言：</label>
                 <select
@@ -108,8 +113,13 @@ watch(
                     </option>
                 </select>
             </div>
+            <a-button class="reset ml-[10px]" size="small" type="primary">
+                重新开始
+            </a-button>
         </nav>
-        <main class="flex-1 overflow-y-scroll hide-scrollbar bg-[#282c34]">
+        <main
+            class="flex-1 overflow-x-hidden overflow-y-scroll hide-scrollbar bg-[#282c34]"
+        >
             <codemirror
                 v-model="commitInfo.code"
                 :placeholder="editorConfig.placeholder"
@@ -122,7 +132,7 @@ watch(
                 @change="handleChange"
             />
         </main>
-        <aside class="relative cur-state text-white">
+        <aside class="relative cur-state text-white h-[85px]">
             <div class="z-[1] absolute bottom-0 left-0 w-full">
                 <div
                     class="flex items-center justify-between running bg-[#2a313d] px-[10px] py-[5px] h-[45px]"
@@ -130,7 +140,7 @@ watch(
                     <i
                         class="iconfont cursor-pointer"
                         :class="
-                            commitInfo.isShowResult
+                            editorConfig.isShowResult
                                 ? 'icon-result-close'
                                 : 'icon-result-open'
                         "
@@ -153,9 +163,9 @@ watch(
                 </div>
             </div>
             <div
-                class="result absolute top-0 left-0 w-full h-[200px] rounded-t-[20px] bg-white transition-all"
+                class="result absolute top-0 left-0 w-full h-[200px] rounded-t-[8px] bg-[#222326] border-[1px] border-[#22272e] transition-all"
                 :class="{
-                    '-translate-y-[calc(100%+85px)]': commitInfo.isShowResult
+                    '-translate-y-[calc(100%+85px)]': editorConfig.isShowResult
                 }"
             ></div>
         </aside>
