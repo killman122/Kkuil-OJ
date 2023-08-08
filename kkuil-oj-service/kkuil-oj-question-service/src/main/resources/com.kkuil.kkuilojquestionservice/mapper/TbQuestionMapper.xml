@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kkuil.kkuilojquestionservice.mapper.TbQuestionMapper">
+
+    <resultMap id="BaseResultMap" type="com.kkuil.kkuilojquestionservice.model.entity.TbQuestion">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="title" column="title" jdbcType="VARCHAR"/>
+            <result property="description" column="description" jdbcType="VARCHAR"/>
+            <result property="rank" column="rank" jdbcType="TINYINT"/>
+            <result property="is_deleted" column="is_deleted" jdbcType="TINYINT"/>
+            <result property="created_time" column="created_time" jdbcType="TIMESTAMP"/>
+            <result property="modified_time" column="modified_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,title,description,
+        rank,is_deleted,created_time,
+        modified_time
+    </sql>
+</mapper>

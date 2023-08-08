@@ -21,6 +21,7 @@
     <properties>
         <java.version>17</java.version>
     </properties>
+
     <dependencies>
         <!-- spring-boot-web-starter -->
         <dependency>
@@ -141,7 +142,6 @@
             <artifactId>jjwt</artifactId>
             <version>0.9.1</version>
         </dependency>
-
     </dependencies>
 
     <build>
