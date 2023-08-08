@@ -31,7 +31,8 @@ const infos = reactive({
 // 用户代码提交的信息
 const commitInfo = ref({
     code: `console.log('Hello, world!') \n dwadad`,
-    lang: "javascript"
+    lang: "javascript",
+    isShowResult: true
 })
 
 /**
@@ -62,6 +63,13 @@ const switchLang = (e: InputEventDefinition) => {
         ...DEFAULT_EXTENSIONS
     ]
     commitInfo.value.lang = e.target.value
+}
+
+/**
+ * @description 显示运行结果
+ */
+const showRunResult = () => {
+    commitInfo.value.isShowResult = !commitInfo.value.isShowResult
 }
 
 watch(
@@ -114,14 +122,42 @@ watch(
                 @change="handleChange"
             />
         </main>
-        <aside
-            class="cur-state w-full bg-[#22272e] text-white flex items-center p-[10px]"
-        >
-            <div class="infos text-[13px]">
-                <span class="item ml-[20px]"> 总长度: {{ infos.length }} </span>
-                <span class="item ml-[20px]"> 行数: {{ infos.lines }} </span>
-                <span class="item ml-[20px]"> 光标: {{ infos.cursor }} </span>
+        <aside class="relative cur-state text-white">
+            <div class="z-[1] absolute bottom-0 left-0 w-full">
+                <div
+                    class="flex items-center justify-between running bg-[#2a313d] px-[10px] py-[5px] h-[45px]"
+                >
+                    <i
+                        class="iconfont cursor-pointer"
+                        :class="
+                            commitInfo.isShowResult
+                                ? 'icon-result-close'
+                                : 'icon-result-open'
+                        "
+                        @click="showRunResult"
+                    ></i>
+                    <a-button size="small" type="primary">运行</a-button>
+                </div>
+                <div
+                    class="infos text-[13px] bg-[#22272e] flex items-center h-[40px]"
+                >
+                    <span class="item ml-[20px]">
+                        总长度: {{ infos.length }}
+                    </span>
+                    <span class="item ml-[20px]">
+                        行数: {{ infos.lines }}
+                    </span>
+                    <span class="item ml-[20px]">
+                        光标: {{ infos.cursor }}
+                    </span>
+                </div>
             </div>
+            <div
+                class="result absolute top-0 left-0 w-full h-[200px] rounded-t-[20px] bg-white transition-all"
+                :class="{
+                    '-translate-y-[calc(100%+85px)]': commitInfo.isShowResult
+                }"
+            ></div>
         </aside>
     </div>
 </template>

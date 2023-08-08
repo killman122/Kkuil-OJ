@@ -60,6 +60,7 @@ router.beforeEach(
 
 userStore.$subscribe(
     () => {
+        console.log(userStore.isAuth)
         if (userStore.isAuth) {
             adminNavigation.forEach((item) => {
                 router.addRoute(NAVIGATION_PARENT_NAME, item)

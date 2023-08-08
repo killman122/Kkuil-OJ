@@ -5,7 +5,7 @@ export const NAVIGATION_PARENT_NAME = "layout"
 // 管理员导航栏
 export const adminNavigation: Route.RouteRecordRawInfo[] = [
     {
-        path: "/question-manage",
+        path: "question-manage",
         name: "question-manage",
         meta: {
             name: "题目管理"

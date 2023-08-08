@@ -19,12 +19,7 @@ public class UserConst {
     /**
      * 用户token过期时间
      */
-    public static final int USER_TOKEN_TTL = 30 * 60 * 1000;
-
-    /**
-     * 用户token刷新时间
-     */
-    public static final int USER_TOKEN_REFRESH_TIME = 10 * 60 * 1000;
+    public static final int USER_TOKEN_TTL = 24 * 60 * 60 * 1000;
 
     /**
      * 用户token在请求头中的key

@@ -21,7 +21,7 @@ onMounted(() => {
             <RouterView />
         </main>
         <div
-            class="copyright fixed bottom-[10px] right-[10px] text-[#777] text-sm"
+            class="z-[999999] copyright fixed bottom-[10px] right-[10px] text-[#777] text-sm"
         >
             @Copyright 所有权归
             <a

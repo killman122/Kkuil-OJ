@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AAvatar: typeof import('@arco-design/web-vue')['Avatar']
+    AButton: typeof import('@arco-design/web-vue')['Button']
     ACarousel: typeof import('@arco-design/web-vue')['Carousel']
     ACarouselItem: typeof import('@arco-design/web-vue')['CarouselItem']
     ADoption: typeof import('@arco-design/web-vue')['Doption']
