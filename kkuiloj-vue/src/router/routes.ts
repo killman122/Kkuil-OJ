@@ -1,15 +1,11 @@
-import type { RouteRecordRaw } from "vue-router"
-
-type RouteRecordRawInfo = RouteRecordRaw & {
-    meta: Route.RouteMetaRaw
-}
+import { Route } from "@/router/route"
 
 export const NAVIGATION_PARENT_NAME = "layout"
 
 // 管理员导航栏
-export const adminNavigation: RouteRecordRawInfo[] = [
+export const adminNavigation: Route.RouteRecordRawInfo[] = [
     {
-        path: "question-manage",
+        path: "/question-manage",
         name: "question-manage",
         meta: {
             name: "题目管理"
@@ -20,7 +16,7 @@ export const adminNavigation: RouteRecordRawInfo[] = [
 ]
 
 // 普通导航栏
-export const navigation: RouteRecordRawInfo[] = [
+export const navigation: Route.RouteRecordRawInfo[] = [
     {
         path: "dashboard",
         name: "dashboard",
@@ -33,7 +29,7 @@ export const navigation: RouteRecordRawInfo[] = [
 ]
 
 // 主路由
-export const routes: RouteRecordRaw[] = [
+export const routes: Route.RouteRecordRawInfo[] = [
     {
         path: "/",
         name: NAVIGATION_PARENT_NAME,
@@ -46,7 +42,8 @@ export const routes: RouteRecordRaw[] = [
                 name: "online-judge",
                 meta: {
                     name: "在线判题",
-                    isNeedLogin: true
+                    isNeedLogin: true,
+                    isNotNav: true
                 },
                 component: () =>
                     import("@/views/Navigation/OjJudge/OjJudge.vue")

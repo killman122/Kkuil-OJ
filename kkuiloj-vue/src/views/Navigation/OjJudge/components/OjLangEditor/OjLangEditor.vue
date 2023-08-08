@@ -5,10 +5,7 @@ import { javascript } from "@codemirror/lang-javascript"
 import { java } from "@codemirror/lang-java"
 import { oneDark } from "@codemirror/theme-one-dark"
 import type { EditorState } from "@codemirror/state"
-
-interface InputEventWithTarget extends InputEvent {
-    target: HTMLInputElement
-}
+import InputEventDefinition = GlobalType.InputEventDefinition
 
 // 语言映射
 const LANG_MAP_EDITOR = {
@@ -59,7 +56,7 @@ const handleChange = (value, payload) => {
  * @description 切换语言
  * @param e
  */
-const switchLang = (e: InputEventWithTarget) => {
+const switchLang = (e: InputEventDefinition) => {
     editorConfig.extensions = [
         LANG_MAP_EDITOR[e.target.value],
         ...DEFAULT_EXTENSIONS

@@ -2,6 +2,7 @@
 import moment from "moment"
 import { useRouter } from "vue-router"
 import { reactive } from "vue"
+import InputEventDefinition = GlobalType.InputEventDefinition
 
 const $router = useRouter()
 
@@ -236,7 +237,7 @@ const list = [
     }
 ]
 
-const gotoQuestionDetail = (e: Event) => {
+const gotoQuestionDetail = (e: InputEventDefinition) => {
     $router.push(`/online-judge/${e.target.dataset.id}`)
 }
 </script>
@@ -251,64 +252,72 @@ const gotoQuestionDetail = (e: Event) => {
             <li
                 v-for="question in list"
                 :key="question.id"
-                class="flex justify-between gap-x-6 py-5 cursor-pointer hover:bg-gray-50"
+                class="cursor-pointer py-5 hover:bg-gray-50"
                 :title="question.cn_name"
                 :data-id="question.id"
             >
-                <div class="flex min-w-0 gap-x-4 pointer-events-none">
-                    <img
-                        class="h-12 w-12 flex-none rounded-full bg-black"
-                        :src="question.question_icon"
-                        :alt="question.question_source"
-                    />
-                    <div class="min-w-0 flex-auto">
-                        <p
-                            class="text-sm font-semibold leading-6 text-gray-900"
-                        >
-                            {{ question.cn_name }}
-                        </p>
-                        <p
-                            class="mt-1 truncate text-xs leading-5 text-gray-500"
-                        >
-                            <span class="post-count">
-                                总调用次数：
-                                <b class="text-[#0094ff]">
-                                    {{ question.post_count }}
-                                </b>
-                            </span>
-                            <span class="pass-rate ml-[10px]">
-                                通过率：
-                                <b class="text-[#0094ff]">
-                                    {{ question.pass_rate * 100 }} %
-                                </b>
-                            </span>
-                        </p>
-                    </div>
-                </div>
-                <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-                    <p class="text-sm leading-6 text-gray-900">
-                        来源：{{ question.question_source }}
-                    </p>
-                    <p
-                        v-if="question.post_time"
-                        class="mt-1 text-xs leading-5 text-gray-500"
-                    >
-                        上线时间：
-                        <time :datetime="question.post_time"
-                            >{{
-                                moment(question.post_time).format("YYYY-MM-DD")
-                            }}
-                        </time>
-                    </p>
-                    <div v-else class="mt-1 flex items-center gap-x-1.5">
-                        <div
-                            class="flex-none rounded-full bg-emerald-500/20 p-1"
-                        >
-                            <div
-                                class="h-1.5 w-1.5 rounded-full bg-emerald-500"
-                            />
+                <div class="flex justify-between gap-x-6 pointer-events-none">
+                    <div class="flex min-w-0 gap-x-4">
+                        <img
+                            class="h-12 w-12 flex-none rounded-full bg-black"
+                            :src="question.question_icon"
+                            :alt="question.question_source"
+                        />
+                        <div class="min-w-0 flex-auto">
+                            <p
+                                class="text-sm font-semibold leading-6 text-gray-900"
+                            >
+                                {{ question.cn_name }}
+                            </p>
+                            <p
+                                class="mt-1 truncate text-xs leading-5 text-gray-500"
+                            >
+                                <span class="post-count">
+                                    总调用次数：
+                                    <b class="text-[#0094ff]">
+                                        {{ question.post_count }}
+                                    </b>
+                                </span>
+                                <span class="pass-rate ml-[10px]">
+                                    通过率：
+                                    <b class="text-[#0094ff]">
+                                        {{ question.pass_rate * 100 }} %
+                                    </b>
+                                </span>
+                            </p>
                         </div>
-                        <p class="text-xs leading-5 text-gray-500">进行中</p>
+                    </div>
+                    <div
+                        class="hidden shrink-0 sm:flex sm:flex-col sm:items-end"
+                    >
+                        <p class="text-sm leading-6 text-gray-900">
+                            来源：{{ question.question_source }}
+                        </p>
+                        <p
+                            v-if="question.post_time"
+                            class="mt-1 text-xs leading-5 text-gray-500"
+                        >
+                            上线时间：
+                            <time :datetime="question.post_time"
+                                >{{
+                                    moment(question.post_time).format(
+                                        "YYYY-MM-DD"
+                                    )
+                                }}
+                            </time>
+                        </p>
+                        <div v-else class="mt-1 flex items-center gap-x-1.5">
+                            <div
+                                class="flex-none rounded-full bg-emerald-500/20 p-1"
+                            >
+                                <div
+                                    class="h-1.5 w-1.5 rounded-full bg-emerald-500"
+                                />
+                            </div>
+                            <p class="text-xs leading-5 text-gray-500">
+                                进行中
+                            </p>
+                        </div>
                     </div>
                 </div>
             </li>

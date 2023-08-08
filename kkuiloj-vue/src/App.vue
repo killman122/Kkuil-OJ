@@ -3,6 +3,7 @@ import { useUserStore } from "@/stores/user"
 import { router } from "@/router"
 import MessageUtil from "@/utils/MessageUtil"
 import type { NavigationGuardNext, RouteLocationNormalized } from "vue-router"
+import { adminNavigation, NAVIGATION_PARENT_NAME } from "@/router/routes"
 
 // 为了让 TS 识别 meta 字段
 type TRouteLocationNormalized = RouteLocationNormalized & {
@@ -54,6 +55,20 @@ router.beforeEach(
             }
         }
         return next()
+    }
+)
+
+userStore.$subscribe(
+    () => {
+        if (userStore.isAuth) {
+            adminNavigation.forEach((item) => {
+                router.addRoute(NAVIGATION_PARENT_NAME, item)
+                console.log(router.options.routes)
+            })
+        }
+    },
+    {
+        deep: true
     }
 )
 </script>

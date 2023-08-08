@@ -1,14 +1,11 @@
 <script setup lang="ts">
-import { onMounted } from "vue"
-import {
-    adminNavigation,
-    navigation,
-    NAVIGATION_PARENT_NAME
-} from "@/router/routes"
-import { router } from "@/router"
 import { useUserStore } from "@/stores/user"
 import { useRouter } from "vue-router"
 import { USER_LOCAL_STORAGE_KEY } from "@/constant/user"
+import { computed } from "vue"
+import { router } from "@/router"
+import { NAVIGATION_PARENT_NAME } from "@/router/routes"
+import { Route } from "@/router/route"
 
 const $router = useRouter()
 const userStore = useUserStore()
@@ -19,22 +16,6 @@ const mapOption = {
     logout: () => {
         localStorage.removeItem(USER_LOCAL_STORAGE_KEY)
         switchRoute("login")
-    }
-}
-
-onMounted(async () => {
-    // 添加动态路由
-    addDynamicRoutes()
-})
-
-/**
- * @description 添加动态路由
- */
-function addDynamicRoutes() {
-    if (userStore.isAuth) {
-        adminNavigation.forEach((item) => {
-            router.addRoute(NAVIGATION_PARENT_NAME, item)
-        })
     }
 }
 
@@ -53,6 +34,17 @@ function switchRoute(name: string) {
 const handleSelect = (value: string) => {
     mapOption[value]()
 }
+
+/**
+ * @description 获取导航菜单
+ */
+const navigation = computed(() => {
+    return (
+        router.options.routes.filter(
+            (route) => route.name === NAVIGATION_PARENT_NAME
+        )[0].children as Route.RouteRecordRawInfo[]
+    ).filter((route) => !route.meta?.isNotNav)
+})
 </script>
 
 <template>
