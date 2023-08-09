@@ -6,7 +6,7 @@ import DraggableResize from "@/components/DraggableResize/DraggableResize.vue"
 
 <template>
     <div class="oj-judge h-[calc(100vh-60px)] overflow-hidden flex">
-        <DraggableResize left-class="hidden md:block" :default-scale="0.5">
+        <DraggableResize :default-scale="0.5">
             <template #left>
                 <OjQuestionDesc />
             </template>
@@ -14,14 +14,6 @@ import DraggableResize from "@/components/DraggableResize/DraggableResize.vue"
                 <OjLangEditor />
             </template>
         </DraggableResize>
-        <!--        <aside-->
-        <!--            class="question-description flex-[0] md:flex-[0.5] border-r-2 h-full"-->
-        <!--        >-->
-        <!--            <OjQuestionDesc />-->
-        <!--        </aside>-->
-        <!--        <main class="code-editor flex-1 md:flex-[0.5] h-full">-->
-        <!--            <OjLangEditor />-->
-        <!--        </main>-->
     </div>
 </template>
 
