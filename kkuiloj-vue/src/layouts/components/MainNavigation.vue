@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useUserStore } from "@/stores/user"
-import { useRouter } from "vue-router"
+import { useRoute, useRouter } from "vue-router"
 import { USER_LOCAL_STORAGE_KEY } from "@/constant/user"
 import { computed } from "vue"
 import { router } from "@/router"
@@ -8,6 +8,7 @@ import { NAVIGATION_PARENT_NAME } from "@/router/routes"
 import { Route } from "@/router/route"
 
 const $router = useRouter()
+const $route = useRoute()
 const userStore = useUserStore()
 const mapOption = {
     login: () => {
@@ -56,7 +57,11 @@ const navigation = computed(() => {
             class="h-[45px] cursor-pointer"
             @click="switchRoute('layout')"
         />
-        <a-menu mode="horizontal" :default-selected-keys="[navigation[0].name]">
+        <a-menu
+            mode="horizontal"
+            :default-selected-keys="[navigation[0].name]"
+            :selected-keys="[$route.name]"
+        >
             <a-menu-item
                 v-for="{ name, meta } in navigation"
                 :key="name"

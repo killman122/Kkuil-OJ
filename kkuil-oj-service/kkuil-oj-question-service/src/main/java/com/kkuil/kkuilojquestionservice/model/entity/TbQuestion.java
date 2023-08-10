@@ -1,19 +1,27 @@
 package com.kkuil.kkuilojquestionservice.model.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Builder;
+import lombok.Data;
+import lombok.experimental.Accessors;
+
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
-import lombok.Data;
 
 /**
  * 
+ * @Author Kkuil
+ * @Date 2023/08/09 18:00
+ * @Description 题目
  * @TableName tb_question
  */
 @TableName(value ="tb_question")
 @Data
+@Accessors(chain = true)
+@Builder
 public class TbQuestion implements Serializable {
     /**
      * 题目编号
@@ -40,23 +48,30 @@ public class TbQuestion implements Serializable {
     private Integer rank;
 
     /**
+     * 题目要求
+     */
+    @TableField(value = "condition")
+    private String condition;
+
+    /**
      * 是否逻辑删除(0：未删除 1：已删除)
      */
     @TableField(value = "is_deleted")
-    private Integer is_deleted;
+    private Integer isDeleted;
 
     /**
      * 创建时间
      */
     @TableField(value = "created_time")
-    private Date created_time;
+    private Date createdTime;
 
     /**
      * 最后一次修改时间
      */
     @TableField(value = "modified_time")
-    private Date modified_time;
+    private Date modifiedTime;
 
+    @Serial
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 }

@@ -6,7 +6,7 @@ import DraggableResize from "@/components/DraggableResize/DraggableResize.vue"
 
 <template>
     <div class="oj-judge h-[calc(100vh-60px)] overflow-hidden flex">
-        <DraggableResize :default-scale="0.5">
+        <DraggableResize :default-scale="0.5" :is-show-in-min-scale="true">
             <template #left>
                 <OjQuestionDesc />
             </template>

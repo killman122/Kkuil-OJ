@@ -5,7 +5,15 @@ import { javascript } from "@codemirror/lang-javascript"
 import { java } from "@codemirror/lang-java"
 import { oneDark } from "@codemirror/theme-one-dark"
 import type { EditorState } from "@codemirror/state"
+import KSkeleton from "@/components/KSkeleton/KSkeleton.vue"
+import KSkeletonItem from "@/components/KSkeleton/components/KSkeletonItem.vue"
 import InputEventDefinition = GlobalType.InputEventDefinition
+import RunResult = GlobalType.RunResult
+
+type NavigationProps = {
+    active: string
+    items: { name: string; label: string }[]
+}
 
 // 语言映射
 const LANG_MAP_EDITOR = {
@@ -15,7 +23,10 @@ const LANG_MAP_EDITOR = {
 
 // 编辑器默认扩展
 const DEFAULT_EXTENSIONS = [oneDark]
-const view: Ref<EditorState | undefined> = ref<EditorState>()
+const view = ref<EditorState>()
+
+// 模态框的可见性
+const visible = ref<boolean>(false)
 
 // 编辑器配置
 const editorConfig = reactive({
@@ -27,11 +38,35 @@ const editorConfig = reactive({
     isShowResult: false
 })
 
+// 是否正在运行代码
+const runInfo = reactive<RunResult>({
+    isRunning: false,
+    execResult: "",
+    execMessage: "",
+    execTime: 0,
+    execMemory: 0
+})
+
 // 编辑器信息
 const infos = reactive({
     cursor: 0,
     length: 0,
     lines: 0
+})
+
+// 导航信息
+const navInfo = reactive<NavigationProps>({
+    active: "test-case",
+    items: [
+        {
+            name: "test-case",
+            label: "测试用例"
+        },
+        {
+            name: "test-case-result",
+            label: "测试结果"
+        }
+    ]
 })
 
 // 用户代码提交的信息
@@ -90,6 +125,28 @@ watch(
         deep: true
     }
 )
+
+const handleClick = () => {
+    visible.value = true
+}
+const handleBeforeOk = async () => {
+    await new Promise((resolve) => setTimeout(resolve, 3000))
+    return true
+}
+const handleCancel = () => {
+    visible.value = false
+}
+
+/**
+ * @description 运行代码
+ */
+const run = () => {
+    editorConfig.isShowResult = true
+    runInfo.isRunning = true
+    setTimeout(() => {
+        runInfo.isRunning = false
+    }, 3000)
+}
 </script>
 
 <template>
@@ -113,9 +170,28 @@ watch(
                     </option>
                 </select>
             </div>
-            <a-button class="reset ml-[10px]" size="small" type="primary">
+            <a-button
+                class="reset ml-[10px]"
+                size="small"
+                type="primary"
+                @click="handleClick"
+            >
                 重新开始
             </a-button>
+            <a-modal
+                v-model:visible="visible"
+                @cancel="handleCancel"
+                :on-before-ok="handleBeforeOk"
+                ok-text="确定"
+                cancel-text="取消"
+                unmountOnClose
+            >
+                <template #title>是否重置代码</template>
+                <div>
+                    点击确定将删除您之前<b>所做题目记录</b
+                    ><br />（仅限于当前题目的当前所选语言，对该题下的其他语言暂无影响）
+                </div>
+            </a-modal>
         </nav>
         <main
             class="flex-1 overflow-x-hidden overflow-y-scroll hide-scrollbar bg-[#282c34]"
@@ -133,20 +209,23 @@ watch(
             />
         </main>
         <aside class="relative cur-state text-white h-[85px]">
-            <div class="z-[1] absolute bottom-0 left-0 w-full">
+            <div class="z-10 absolute bottom-0 left-0 w-full">
                 <div
                     class="flex items-center justify-between running bg-[#2a313d] px-[10px] py-[5px] h-[45px]"
                 >
-                    <i
-                        class="iconfont cursor-pointer"
-                        :class="
-                            editorConfig.isShowResult
-                                ? 'icon-result-close'
-                                : 'icon-result-open'
-                        "
-                        @click="showRunResult"
-                    ></i>
-                    <a-button size="small" type="primary">运行</a-button>
+                    <b class="cursor-pointer" @click="showRunResult">
+                        {{
+                            editorConfig.isShowResult ? "隐藏示例" : "查看示例"
+                        }}
+                    </b>
+                    <a-button
+                        size="small"
+                        type="primary"
+                        @click="run"
+                        :loading="runInfo.isRunning"
+                    >
+                        运行
+                    </a-button>
                 </div>
                 <div
                     class="infos text-[13px] bg-[#22272e] flex items-center h-[40px]"
@@ -163,11 +242,54 @@ watch(
                 </div>
             </div>
             <div
-                class="result absolute top-0 left-0 w-full h-[200px] rounded-t-[8px] bg-[#222326] border-[1px] border-[#22272e] transition-all"
+                class="result absolute overflow-hidden max-h-[200px] overflow-y-scroll hide-scrollbar top-0 left-0 w-full rounded-t-[8px] bg-[#222326] border-[1px] border-[#22272e] transition-all shadow-lg"
                 :class="{
-                    '-translate-y-[calc(100%+85px)]': editorConfig.isShowResult
+                    '-translate-y-full': editorConfig.isShowResult
                 }"
-            ></div>
+            >
+                <div
+                    class="z-[9] sticky top-0 left-0 top h-[45px] bg-[#222326] w-full flex items-center justify-between text-[13px] px-[10px] border-b-[1px] border-[#0d1117]"
+                >
+                    <div class="nav">
+                        <div class="flex space-x-2">
+                            <a
+                                v-for="item in navInfo.items"
+                                :key="item.name"
+                                :href="`#${item.name}`"
+                                class="text-white rounded-md px-3 py-2 text-sm font-medium"
+                                :class="
+                                    navInfo.active === item.name
+                                        ? 'bg-gray-900'
+                                        : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                                "
+                                @click="navInfo.active = item.name"
+                            >
+                                {{ item.label }}
+                            </a>
+                        </div>
+                    </div>
+                    <i
+                        class="iconfont icon-result-open cursor-pointer"
+                        @click="editorConfig.isShowResult = false"
+                    ></i>
+                </div>
+                <k-skeleton
+                    :loading="runInfo.isRunning"
+                    animated
+                    :throttle="200"
+                >
+                    <template #template>
+                        <k-skeleton-item animated variant="text" :rows="3" />
+                    </template>
+                    <template #default>
+                        <div
+                            class="show-data-area flex items-center min-h-[45px]"
+                        >
+                            暂无数据
+                        </div>
+                    </template>
+                </k-skeleton>
+            </div>
         </aside>
     </div>
 </template>

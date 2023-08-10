@@ -5,18 +5,19 @@
 <mapper namespace="com.kkuil.kkuilojquestionservice.mapper.TbQuestionMapper">
 
     <resultMap id="BaseResultMap" type="com.kkuil.kkuilojquestionservice.model.entity.TbQuestion">
-            <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="title" column="title" jdbcType="VARCHAR"/>
-            <result property="description" column="description" jdbcType="VARCHAR"/>
-            <result property="rank" column="rank" jdbcType="TINYINT"/>
-            <result property="is_deleted" column="is_deleted" jdbcType="TINYINT"/>
-            <result property="created_time" column="created_time" jdbcType="TIMESTAMP"/>
-            <result property="modified_time" column="modified_time" jdbcType="TIMESTAMP"/>
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="title" column="title" jdbcType="VARCHAR"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="rank" column="rank" jdbcType="TINYINT"/>
+        <result property="condition" column="condition" jdbcType="OTHER"/>
+        <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
+        <result property="createdTime" column="created_time" jdbcType="TIMESTAMP"/>
+        <result property="modifiedTime" column="modified_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         id,title,description,
-        rank,is_deleted,created_time,
+        rank,condition,is_deleted,created_time,
         modified_time
     </sql>
 </mapper>

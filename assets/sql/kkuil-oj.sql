@@ -22,8 +22,9 @@ CREATE TABLE IF NOT EXISTS tb_question(
 	id BIGINT PRIMARY KEY COMMENT "题目编号",
 	title VARCHAR(100) NOT NULL COMMENT "题目标题",
 	description TEXT NOT NULL COMMENT "题目描述",
-	`rank` UNSIGNED TINYINT NOT NULL DEFAULT 0 COMMENT "难度等级 0-入门 1-简单 2-中等 3-偏难 4-困难 5-地狱",
-	is_deleted UNSIGNED TINYINT NOT NULL DEFAULT 0 COMMENT "是否逻辑删除(0：未删除 1：已删除)",
+	`rank` TINYINT NOT NULL DEFAULT 0 COMMENT "难度等级 0-入门 1-简单 2-中等 3-偏难 4-困难 5-地狱",
+	`condition` JSON NOT NULL COMMENT "题目要求",
+	is_deleted TINYINT NOT NULL DEFAULT 0 COMMENT "是否逻辑删除(0：未删除 1：已删除)",
 	created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT "创建时间",
 	modified_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT "最后一次修改时间"
 );
@@ -31,24 +32,21 @@ CREATE TABLE IF NOT EXISTS tb_question(
 ## 代码提交记录表
 CREATE TABLE IF NOT EXISTS tb_commit_record(
 	id BIGINT PRIMARY KEY COMMENT "提交记录编号",
+	question_id BIGINT COMMENT "题目编号",
 	user_id BIGINT NOT NULL COMMENT "提交代码的用户id",
 	lang VARCHAR(100) NOT NULL COMMENT "所用的编程语言",
 	`code` TEXT NOT NULL COMMENT "提交的代码",
-	exec_result TINYINT(1) NOT NULL COMMENT "代码执行结果(0-失败 1-成功)",
+	exec_result TINYINT NOT NULL DEFAULT 0 COMMENT "代码执行结果(1-失败 0-成功)",
 	exec_message VARCHAR(170) NOT NULL DEFAULT "答案正确" COMMENT "代码执行反馈消息",
+	exec_time DATETIME NOT NULL COMMENT "代码执行时间单位ms",
+	exec_memory INT(10) NOT NULL DEFAULT 0 COMMENT "代码执行所消耗的内存单位KB",
 	is_deleted TINYINT NOT NULL DEFAULT 0 COMMENT "是否逻辑删除(0：未删除 1：已删除)",
 	created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT "创建时间",
-	modified_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT "最后一次修改时间"
+	modified_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT "最后一次修改时间",
+	KEY (question_id, user_id)
 );
 
-## 代码执行过程状态表
-CREATE TABLE IF NOT EXISTS tb_exec_process(
-	record_id BIGINT PRIMARY KEY COMMENT "提交记录编号",
-	exec_status VARCHAR(100) NOT NULL DEFAULT "执行中" COMMENT "当前代码执行的状态， 例如：已提交，执行中，编译中等",
-	is_deleted TINYINT NOT NULL DEFAULT 0 COMMENT "是否逻辑删除(0：未删除 1：已删除)",
-	created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT "创建时间",
-	modified_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT "最后一次修改时间"
-);
+
 
 
 

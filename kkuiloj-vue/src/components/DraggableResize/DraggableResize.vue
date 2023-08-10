@@ -1,5 +1,12 @@
 <script generic="T extends Number,String" setup lang="ts">
-import { computed, defineProps, nextTick, onMounted, ref } from "vue"
+import {
+    computed,
+    defineProps,
+    nextTick,
+    onBeforeUnmount,
+    onMounted,
+    ref
+} from "vue"
 import { minScale } from "@arco-design/web-vue/es/image/utils/get-scale"
 
 const DEFAULT_MIN_SCALE = 0.1
@@ -36,15 +43,6 @@ const rightRef = ref<HTMLDivElement>()
 const splitLinePos = ref<string | number>()
 // 是否拖动过
 const isDragged = ref(false)
-
-onMounted(() => {
-    // 分割线拖动事件监听器
-    splitLineListener()
-    // 初始化分割线位置
-    initSplitLinePos()
-    // 父元素尺寸变化监听器
-    parentResizeListener()
-})
 
 // 处理默认缩放比例
 const computedDefaultScale = computed(() => {
@@ -123,32 +121,20 @@ function showBox() {
     }
 }
 
-/**
- *  @description 分割线拖动事件监听器
- */
-const splitLineListener = () => {
-    if ("ondrag" in splitLineRef.value) {
-        splitLineRef.value.ondrag = (e: DragEvent) => {
-            showBox()
-            splitLinePos.value = e.clientX
-            isDragged.value = true
-            nextTick(minScaleHandler)
-        }
-    }
-    if ("ondragend" in splitLineRef.value) {
-        splitLineRef.value.ondragend = (e: DragEvent) => {
-            showBox()
-            splitLinePos.value = e.clientX
-            nextTick(minScaleHandler)
-        }
-    }
-}
-
-/**
- *  @description 父元素尺寸变化监听器
- */
-const parentResizeListener = () => {
-    document.body.onresize = () => {
+// 监听器
+const listeners = {
+    ondrag: (e: DragEvent) => {
+        showBox()
+        splitLinePos.value = e.clientX
+        isDragged.value = true
+        nextTick(minScaleHandler)
+    },
+    ondragEnd: (e: DragEvent) => {
+        showBox()
+        splitLinePos.value = e.clientX
+        nextTick(minScaleHandler)
+    },
+    onresize: () => {
         splitLinePos.value =
             leftRef.value?.getBoundingClientRect().width -
             splitLineRef.value?.getBoundingClientRect().width / 2
@@ -163,6 +149,44 @@ const parentResizeListener = () => {
         }
     }
 }
+
+/**
+ *  @description 分割线拖动事件监听器
+ */
+const splitLineListener = () => {
+    if ("ondrag" in splitLineRef.value) {
+        splitLineRef.value.ondrag = listeners.ondrag
+    }
+    if ("ondragend" in splitLineRef.value) {
+        splitLineRef.value.ondragend = listeners.ondragEnd
+    }
+}
+
+/**
+ *  @description 父元素尺寸变化监听器
+ */
+const parentResizeListener = () => {
+    document.body.onresize = listeners.onresize
+}
+
+onMounted(() => {
+    // 分割线拖动事件监听器
+    splitLineListener()
+    // 初始化分割线位置
+    initSplitLinePos()
+    // 父元素尺寸变化监听器
+    parentResizeListener()
+})
+
+onBeforeUnmount(() => {
+    document.body.onresize = null
+    if ("ondrag" in splitLineRef.value) {
+        splitLineRef.value.ondrag = null
+    }
+    if ("ondragend" in splitLineRef.value) {
+        splitLineRef.value.ondragend = null
+    }
+})
 </script>
 
 <template>
@@ -215,7 +239,7 @@ const parentResizeListener = () => {
     align-items: center;
 
     .draggable-split-line {
-        z-index: 9999;
+        z-index: 99;
         position: absolute;
         top: 0;
         left: 0;
