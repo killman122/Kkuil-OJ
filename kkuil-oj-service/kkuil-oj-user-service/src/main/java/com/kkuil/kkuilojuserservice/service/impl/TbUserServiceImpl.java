@@ -13,7 +13,7 @@ import com.kkuil.kkuilojuserservice.mapper.TbUserMapper;
 import com.kkuil.kkuilojuserservice.model.dto.UserLoginDTO;
 import com.kkuil.kkuilojuserservice.model.entity.TbUser;
 import com.kkuil.kkuilojuserservice.model.vo.UserAuthVO;
-import com.kkuil.kkuilojuserservice.service.TbUserService;
+import com.kkuil.kkuilojuserservice.service.ITbUserService;
 import io.jsonwebtoken.Claims;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +26,7 @@ import static com.kkuil.common.constant.UserConst.*;
  */
 @Service
 public class TbUserServiceImpl extends ServiceImpl<TbUserMapper, TbUser>
-        implements TbUserService {
+        implements ITbUserService {
 
     /**
      * @param userLoginDTO 用户登录数据传输对象
@@ -114,7 +114,3 @@ public class TbUserServiceImpl extends ServiceImpl<TbUserMapper, TbUser>
         return DigestUtils.str2Md5(newPwd);
     }
 }
-
-
-
-

@@ -9,4 +9,14 @@ declare namespace Store {
             token: string | null
         }
     }
+    declare namespace QuestionStore {
+        type QuestionInfo = {
+            id: string
+            key: string
+            title: string
+            description: string
+            difficulty: number
+            required: string
+        }
+    }
 }

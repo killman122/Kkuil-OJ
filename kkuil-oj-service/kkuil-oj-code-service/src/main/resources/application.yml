@@ -37,7 +37,7 @@ springdoc:
     group-configs:
         -   group: 'default'
             paths-to-match: '/**'
-            packages-to-scan: com.xiaominfo.knife4j.demo.web
+            packages-to-scan: com.kkuil.kkuilojcodeservice.controller
 knife4j:
     enable: true
     setting:

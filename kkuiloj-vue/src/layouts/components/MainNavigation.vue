@@ -2,7 +2,7 @@
 import { useUserStore } from "@/stores/user"
 import { useRoute, useRouter } from "vue-router"
 import { USER_LOCAL_STORAGE_KEY } from "@/constant/user"
-import { computed } from "vue"
+import { ref, watch } from "vue"
 import { router } from "@/router"
 import { NAVIGATION_PARENT_NAME } from "@/router/routes"
 import { Route } from "@/router/route"
@@ -36,16 +36,23 @@ const handleSelect = (value: string) => {
     mapOption[value]()
 }
 
-/**
- * @description 获取导航菜单
- */
-const navigation = computed(() => {
-    return (
-        router.options.routes.filter(
+const navigation = ref<Route.TRouteLocationNormalized[]>([])
+
+watch(
+    () => $route,
+    () => {
+        console.log(123)
+        const parent = router.options.routes.filter(
             (route) => route.name === NAVIGATION_PARENT_NAME
-        )[0].children as Route.RouteRecordRawInfo[]
-    ).filter((route) => !route.meta?.isNotNav)
-})
+        )
+        navigation.value = (
+            parent[0].children as Route.TRouteLocationNormalized[]
+        ).filter((route) => !route.meta?.isNotNav)
+    },
+    {
+        immediate: true
+    }
+)
 </script>
 
 <template>

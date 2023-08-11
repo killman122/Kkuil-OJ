@@ -1,4 +1,8 @@
 import axios from "axios"
+import {
+    USER_LOCAL_STORAGE_KEY,
+    USER_REQUEST_HEADER_KEY
+} from "@/constant/user"
 
 const BASE_URL: string = import.meta.env.VITE_REQUEST_BASE_URL
 const BASE_PORT: number = import.meta.env.VITE_REQUEST_BASE_PORT
@@ -15,6 +19,9 @@ const request = axios.create({
 // 请求拦截器
 request.interceptors.request.use(
     (config) => {
+        config.headers[USER_REQUEST_HEADER_KEY] = localStorage.getItem(
+            USER_LOCAL_STORAGE_KEY
+        )
         return config
     },
     (error) => {

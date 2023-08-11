@@ -3,7 +3,6 @@ package com.kkuil.kkuilojquestionservice.model.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Builder;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -21,7 +20,6 @@ import java.util.Date;
 @TableName(value ="tb_question")
 @Data
 @Accessors(chain = true)
-@Builder
 public class TbQuestion implements Serializable {
     /**
      * 题目编号
@@ -44,14 +42,14 @@ public class TbQuestion implements Serializable {
     /**
      * 难度等级 0-入门 1-简单 2-中等 3-偏难 4-困难 5-地狱
      */
-    @TableField(value = "rank")
-    private Integer rank;
+    @TableField(value = "difficulty")
+    private Integer difficulty;
 
     /**
      * 题目要求
      */
-    @TableField(value = "condition")
-    private String condition;
+    @TableField(value = "required")
+    private String required;
 
     /**
      * 是否逻辑删除(0：未删除 1：已删除)

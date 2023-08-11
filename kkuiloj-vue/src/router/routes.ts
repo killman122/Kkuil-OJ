@@ -8,7 +8,8 @@ export const adminNavigation: Route.RouteRecordRawInfo[] = [
         path: "question-manage",
         name: "question-manage",
         meta: {
-            name: "题目管理"
+            name: "题目管理",
+            isNeedAuth: true
         },
         component: () =>
             import("@/views/Navigation/OjQuestionManage/OjQuestionManage.vue")
@@ -37,6 +38,7 @@ export const routes: Route.RouteRecordRawInfo[] = [
         redirect: "/dashboard",
         children: [
             ...navigation,
+            ...adminNavigation,
             {
                 path: "online-judge/:id",
                 name: "online-judge",

@@ -12,7 +12,7 @@ import com.kkuil.kkuilojuserservice.model.vo.UserAuthVO;
  * @description 针对表【tb_user】的数据库操作Service
  * @Date 2023-08-04 00:17:16
  */
-public interface TbUserService extends IService<TbUser> {
+public interface ITbUserService extends IService<TbUser> {
 
     /**
      * @param userLoginDTO 用户登录数据传输对象

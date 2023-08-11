@@ -5,4 +5,10 @@ declare namespace Request {
             password: string
         }
     }
+    declare namespace Question {
+        type Difficulty = {
+            value: string
+            name: string
+        }
+    }
 }

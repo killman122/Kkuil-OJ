@@ -22,8 +22,8 @@ CREATE TABLE IF NOT EXISTS tb_question(
 	id BIGINT PRIMARY KEY COMMENT "题目编号",
 	title VARCHAR(100) NOT NULL COMMENT "题目标题",
 	description TEXT NOT NULL COMMENT "题目描述",
-	`rank` TINYINT NOT NULL DEFAULT 0 COMMENT "难度等级 0-入门 1-简单 2-中等 3-偏难 4-困难 5-地狱",
-	`condition` JSON NOT NULL COMMENT "题目要求",
+	difficulty TINYINT NOT NULL DEFAULT 0 COMMENT "难度等级 0-入门 1-简单 2-中等 3-偏难 4-困难 5-地狱",
+	required JSON NOT NULL COMMENT "题目要求",
 	is_deleted TINYINT NOT NULL DEFAULT 0 COMMENT "是否逻辑删除(0：未删除 1：已删除)",
 	created_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT "创建时间",
 	modified_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT "最后一次修改时间"

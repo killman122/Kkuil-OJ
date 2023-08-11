@@ -8,8 +8,8 @@
         <id property="id" column="id" jdbcType="BIGINT"/>
         <result property="title" column="title" jdbcType="VARCHAR"/>
         <result property="description" column="description" jdbcType="VARCHAR"/>
-        <result property="rank" column="rank" jdbcType="TINYINT"/>
-        <result property="condition" column="condition" jdbcType="OTHER"/>
+        <result property="difficulty" column="difficulty" jdbcType="TINYINT"/>
+        <result property="required" column="required" jdbcType="OTHER"/>
         <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
         <result property="createdTime" column="created_time" jdbcType="TIMESTAMP"/>
         <result property="modifiedTime" column="modified_time" jdbcType="TIMESTAMP"/>
@@ -17,7 +17,7 @@
 
     <sql id="Base_Column_List">
         id,title,description,
-        rank,condition,is_deleted,created_time,
+        rank,required,is_deleted,created_time,
         modified_time
     </sql>
 </mapper>

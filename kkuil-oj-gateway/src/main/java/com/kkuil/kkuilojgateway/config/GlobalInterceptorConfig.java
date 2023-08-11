@@ -1,8 +1,6 @@
 package com.kkuil.kkuilojgateway.config;
 
 import com.kkuil.kkuilojgateway.interceptors.AuthInterceptor;
-import lombok.Data;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -16,13 +14,11 @@ import java.util.List;
  * @Description 全局拦截器配置
  */
 @Configuration
-@ConfigurationProperties(prefix = "cors")
-@Data
 public class GlobalInterceptorConfig implements WebMvcConfigurer {
 
     private static final List<String> AUTH_WHITE_LIST = new ArrayList<>();
-
     static {
+        AUTH_WHITE_LIST.add("/api/user/login");
     }
 
     @Override

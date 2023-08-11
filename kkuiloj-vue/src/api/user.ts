@@ -1,8 +1,4 @@
 import request from "@/utils/request"
-import {
-    USER_LOCAL_STORAGE_KEY,
-    USER_REQUEST_HEADER_KEY
-} from "@/constant/user"
 
 /**
  * @description 登录
@@ -24,11 +20,6 @@ export function login(
 export function auth(): Promise<GlobalType.Result<Store.UserStore.UserInfo>> {
     return request({
         url: "/user/auth",
-        method: "GET",
-        headers: {
-            [USER_REQUEST_HEADER_KEY]: localStorage.getItem(
-                USER_LOCAL_STORAGE_KEY
-            )
-        }
+        method: "GET"
     })
 }
