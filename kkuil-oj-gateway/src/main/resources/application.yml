@@ -32,6 +32,12 @@ spring:
                         -   name: Path
                             args:
                                 pattern: /api/question/**
+                -   id: judge-service
+                    uri: http://127.0.0.1:3173
+                    predicates:
+                        -   name: Path
+                            args:
+                                pattern: /api/judge/**
 logging:
     level:
         root: debug

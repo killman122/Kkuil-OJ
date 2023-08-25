@@ -36,6 +36,10 @@ public class UserController {
         return userService.login(userLoginDTO);
     }
 
+    /**
+     * @param token 用户token
+     * @return ResultUtil<UserAuthVO>
+     */
     @GetMapping("/auth")
     @Operation(summary = "用户授权", description = "用户授权")
     @Parameter(name = "token", description = "用户token")

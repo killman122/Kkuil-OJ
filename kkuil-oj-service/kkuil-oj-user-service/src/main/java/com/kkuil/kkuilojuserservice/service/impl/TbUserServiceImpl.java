@@ -65,7 +65,8 @@ public class TbUserServiceImpl extends ServiceImpl<TbUserMapper, TbUser>
         UserTokenPayload payload = new UserTokenPayload();
         payload
                 .setId(user.getId())
-                .setUsername(user.getUsername());
+                .setUsername(user.getUsername())
+                .setRole(user.getRole());
         String token = JwtUtils.create(BeanUtil.beanToMap(payload, false, true), USER_TOKEN_SECRET, USER_TOKEN_TTL);
         return ResultUtil.success("登录成功", token);
     }

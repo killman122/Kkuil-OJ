@@ -7,6 +7,9 @@ import { oneDark } from "@codemirror/theme-one-dark"
 import type { EditorState } from "@codemirror/state"
 import KSkeleton from "@/components/KSkeleton/KSkeleton.vue"
 import KSkeletonItem from "@/components/KSkeleton/components/KSkeletonItem.vue"
+import { useRoute } from "vue-router"
+import { doJudge } from "@/api/judge"
+import MessageUtil from "@/utils/MessageUtil"
 import InputEventDefinition = GlobalType.InputEventDefinition
 import RunResult = GlobalType.RunResult
 
@@ -15,6 +18,7 @@ type NavigationProps = {
     items: { name: string; label: string }[]
 }
 
+const $route = useRoute()
 // 语言映射
 const LANG_MAP_EDITOR = {
     javascript: javascript(),
@@ -38,9 +42,10 @@ const editorConfig = reactive({
     isShowResult: false
 })
 
-// 是否正在运行代码
+// 运行信息
 const runInfo = reactive<RunResult>({
     isRunning: false,
+    execStatus: "",
     execResult: "",
     execMessage: "",
     execTime: 0,
@@ -70,7 +75,8 @@ const navInfo = reactive<NavigationProps>({
 })
 
 // 用户代码提交的信息
-const commitInfo = ref({
+const commitInfo = ref<GlobalType.CodeCommitInfo>({
+    questionId: $route.params.id as string,
     code: `console.log('Hello, world!') \n dwadad`,
     lang: "javascript"
 })
@@ -140,12 +146,22 @@ const handleCancel = () => {
 /**
  * @description 运行代码
  */
-const run = () => {
-    editorConfig.isShowResult = true
+const run = async () => {
     runInfo.isRunning = true
-    setTimeout(() => {
-        runInfo.isRunning = false
-    }, 3000)
+    const result: GlobalType.Result<GlobalType.RunResult> = await doJudge(
+        commitInfo.value
+    )
+    runInfo.isRunning = false
+    if (result.data.execResult == "0") {
+        MessageUtil.success("通过")
+    } else {
+        MessageUtil.error("未通过，不要气馁！继续努力！")
+    }
+    runInfo.execStatus = result.data.execStatus
+    runInfo.execResult = result.data.execResult
+    runInfo.execMessage = result.data.execMessage
+    runInfo.execTime = result.data.execTime
+    runInfo.execMemory = result.data.execMemory
 }
 </script>
 
@@ -273,22 +289,94 @@ const run = () => {
                         @click="editorConfig.isShowResult = false"
                     ></i>
                 </div>
-                <k-skeleton
-                    :loading="runInfo.isRunning"
-                    animated
-                    :throttle="200"
+                <div
+                    class="show-data-area flex flex-col min-h-[45px] max-h-[200px] p-[10px]"
                 >
-                    <template #template>
-                        <k-skeleton-item animated variant="text" :rows="3" />
-                    </template>
-                    <template #default>
-                        <div
-                            class="show-data-area flex items-center min-h-[45px]"
+                    <div
+                        class="result"
+                        v-if="$route.hash === '#test-case-result'"
+                    >
+                        <k-skeleton
+                            :loading="runInfo.isRunning"
+                            animated
+                            :throttle="200"
                         >
-                            暂无数据
+                            <template #template>
+                                <k-skeleton-item
+                                    animated
+                                    variant="text"
+                                    :rows="3"
+                                />
+                            </template>
+                            <template #default>
+                                <div
+                                    class="run-result"
+                                    v-if="runInfo.execMessage"
+                                >
+                                    <div
+                                        class="exec-result w-full flex items-center"
+                                    >
+                                        <span>执行结果：</span>
+                                        <div
+                                            class="case flex-1 rounded-[10px] flex items-center min-h-[45px] px-[10px] bg-[#22272e]"
+                                        >
+                                            {{ runInfo.execResult }}
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="exec-time w-full flex items-center mt-[10px]"
+                                    >
+                                        <span>执行时间：</span>
+                                        <div
+                                            class="case flex-1 rounded-[10px] flex items-center min-h-[45px] px-[10px] bg-[#22272e]"
+                                        >
+                                            {{ runInfo.execTime }}
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="exec-memory w-full flex items-center mt-[10px]"
+                                    >
+                                        <span>消耗内存：</span>
+                                        <div
+                                            class="case flex-1 rounded-[10px] flex items-center min-h-[45px] px-[10px] bg-[#22272e]"
+                                        >
+                                            {{ runInfo.execMemory }}
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="exec-message w-full flex items-center mt-[10px]"
+                                    >
+                                        <span>最终结果：</span>
+                                        <div
+                                            class="case flex-1 rounded-[10px] flex items-center min-h-[45px] px-[10px] bg-[#22272e]"
+                                        >
+                                            {{ runInfo.execMessage }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <span v-else>暂无运行结果</span>
+                            </template>
+                        </k-skeleton>
+                    </div>
+                    <div class="case p-[10px]" v-else>
+                        <div class="input w-full flex items-center">
+                            <span>输入：</span>
+                            <div
+                                class="case flex-1 rounded-[10px] flex items-center min-h-[45px] px-[10px] bg-[#22272e]"
+                            >
+                                123
+                            </div>
                         </div>
-                    </template>
-                </k-skeleton>
+                        <div class="output w-full flex items-center mt-[10px]">
+                            <span>输出：</span>
+                            <div
+                                class="case flex-1 rounded-[10px] flex items-center min-h-[45px] px-[10px] bg-[#22272e]"
+                            >
+                                123
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </aside>
     </div>

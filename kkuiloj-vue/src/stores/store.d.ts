@@ -12,7 +12,7 @@ declare namespace Store {
     declare namespace QuestionStore {
         type QuestionInfo = {
             id: string
-            key: string
+            key?: string
             title: string
             description: string
             difficulty: number

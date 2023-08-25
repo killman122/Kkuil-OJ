@@ -5,7 +5,7 @@ import OjQuestionList from "./components/OjQuestionList/OjQuestionList.vue"
 <template>
     <div class="dashboard p-[10px]">
         <aside
-            class="w-[50%] border-2 rounded-[15px] p-[10px] overflow-scroll hide-scrollbar"
+            class="border-2 rounded-[15px] p-[10px] overflow-scroll hide-scrollbar"
         >
             <OjQuestionList />
         </aside>

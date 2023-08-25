@@ -1,14 +1,12 @@
 <script setup lang="ts">
-import type {
-    AddQuestionProps,
-    ColumnProps
-} from "@/views/Navigation/OjQuestionManage/question-manage"
+import type { AddQuestionProps } from "@/views/Navigation/OjQuestionManage/question-manage"
 import { reactive, ref } from "vue"
 import { Codemirror } from "vue-codemirror"
 import { oneDark } from "@codemirror/theme-one-dark"
 import type { EditorState } from "@codemirror/state"
 import { json } from "@codemirror/lang-json"
 import { useQuestionStore } from "@/stores/question-manage"
+import TPageParams = GlobalType.TPageParams
 
 // 编辑器默认扩展
 const DEFAULT_EXTENSIONS = [oneDark]
@@ -34,9 +32,9 @@ const formConfig = {
 }
 
 // 搜索信息
-const searchInfo = ref({
-    searchData: "",
-    total: 10,
+const searchInfo = ref<TPageParams<string>>({
+    data: "",
+    total: 0,
     current: 1,
     pageSize: 10
 })
@@ -81,90 +79,26 @@ const columns = [
     }
 ]
 
-const data: ColumnProps[] = [
-    {
-        id: "1",
-        key: "1",
-        title: "101",
-        description: "user1",
-        difficulty: 1,
-        required:
-            'public class Solution { public static void main(String[] args) { System.out.println("Hello World!"); } }'
-    },
-    {
-        id: "1",
-        key: "1",
-        title: "101",
-        description: "user1",
-        difficulty: 1,
-        required:
-            'public class Solution { public static void main(String[] args) { System.out.println("Hello World!"); } }'
-    },
-    {
-        id: "1",
-        key: "1",
-        title: "101",
-        description: "user1",
-        difficulty: 1,
-        required:
-            'public class Solution { public static void main(String[] args) { System.out.println("Hello World!"); } }'
-    },
-    {
-        id: "1",
-        key: "1",
-        title: "101",
-        description: "user1",
-        difficulty: 1,
-        required:
-            'public class Solution { public static void main(String[] args) { System.out.println("Hello World!"); } }'
-    },
-    {
-        id: "1",
-        key: "1",
-        title: "101",
-        description: "user1",
-        difficulty: 1,
-        required:
-            'public class Solution { public static void main(String[] args) { System.out.println("Hello World!"); } }'
-    },
+// 搜索题目
+const handleSearch = async () => {
+    const data:
+        | GlobalType.TPageParams<Store.QuestionStore.QuestionInfo[]>
+        | NonNullable<unknown> = await questionStore.getQuestionList(
+        searchInfo.value
+    )
+    searchInfo.value.total = (
+        data as GlobalType.TPageParams<Store.QuestionStore.QuestionInfo[]>
+    ).total
+}
 
-    {
-        id: "1",
-        key: "1",
-        title: "101",
-        description: "user1",
-        difficulty: 1,
-        required:
-            'public class Solution { public static void main(String[] args) { System.out.println("Hello World!"); } }'
-    },
-    {
-        id: "1",
-        key: "1",
-        title: "101",
-        description: "user1",
-        difficulty: 1,
-        required:
-            'public class Solution { public static void main(String[] args) { System.out.println("Hello World!"); } }'
-    },
-    {
-        id: "1",
-        key: "1",
-        title: "101",
-        description: "user1",
-        difficulty: 1,
-        required:
-            'public class Solution { public static void main(String[] args) { System.out.println("Hello World!"); } }'
-    },
-    {
-        id: "1",
-        key: "1",
-        title: "101",
-        description: "user1",
-        difficulty: 1,
-        required:
-            'public class Solution { public static void main(String[] args) { System.out.println("Hello World!"); } }'
-    }
-]
+// 页码发生变化时触发
+const handlePageChange = async (page: number) => {
+    searchInfo.value.current = page
+    await questionStore.getQuestionList(searchInfo.value)
+}
+
+// 初始化题目列表
+handleSearch()
 
 // 获取题目难度列表
 const listDifficulty = async () => {
@@ -216,6 +150,8 @@ const handleChange = (value, payload) => {
                 placeholder="请输入你想查看的记录编号"
                 search-button
                 class="w-[320px]"
+                v-model="searchInfo.data"
+                @press-enter="handleSearch"
             >
             </a-input-search>
             <a-button
@@ -227,7 +163,7 @@ const handleChange = (value, payload) => {
         </div>
         <a-table
             :columns="columns"
-            :data="data"
+            :data="questionStore.list"
             bordered
             hoverable
             stripe
@@ -235,6 +171,7 @@ const handleChange = (value, payload) => {
             :row-selection="formConfig.rowSelection"
             column-resizable
             :pagination="searchInfo"
+            @page-change="handlePageChange"
         />
         <a-drawer
             closable

@@ -15,8 +15,23 @@ declare namespace GlobalType {
     type RunResult = {
         isRunning: boolean
         execResult: string
+        execStatus: string
         execMessage: string
         execTime: number
         execMemory: number
+    }
+
+    type CodeCommitInfo = {
+        questionId: string
+        code: string
+        lang: string
+    }
+
+    // 分页查询参数类型
+    type TPageParams<DataType> = {
+        current: number
+        pageSize: number
+        total: number
+        data: DataType
     }
 }

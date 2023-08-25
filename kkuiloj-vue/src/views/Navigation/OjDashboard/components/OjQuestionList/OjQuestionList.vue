@@ -1,242 +1,59 @@
 <script setup lang="ts">
-import moment from "moment"
 import { useRouter } from "vue-router"
-import { reactive } from "vue"
+import { reactive, ref, watchEffect } from "vue"
+import { useQuestionStore } from "@/stores/question-manage"
 import InputEventDefinition = GlobalType.InputEventDefinition
+import TPageParams = GlobalType.TPageParams
+import QuestionInfo = Store.QuestionStore.QuestionInfo
 
 const $router = useRouter()
+const questionStore = useQuestionStore()
 
-const pageInfo = reactive({
+// 分页信息
+const pageInfo = reactive<TPageParams<string>>({
+    total: 0,
     current: 1,
-    pageSize: 10
+    pageSize: 10,
+    data: ""
 })
 
-const list = [
+// 题目列表
+const list = ref<QuestionInfo[]>([
     {
-        id: 1,
-        cn_name: "两数之和",
-        en_name: "Two Sum",
-        difficulty: 1,
-        question_source: "LeetCode",
-        question_icon:
-            "https://static.leetcode.cn/cn-mono-assets/production/assets/logo-light-cn.7c8374e7.svg",
-        question_source_link: "https://leetcode-cn.com/problems/two-sum/",
-        post_count: 100,
-        pass_rate: 0.5,
-        post_time: "2021-10-01 00:00:00"
-    },
-    {
-        id: 2,
-        cn_name: "无重复字符的最长子串",
-        en_name: "Longest Substring Without Repeating Characters",
-        difficulty: 2,
-        question_source: "LeetCode",
-        question_icon:
-            "https://assets.leetcode-cn.com/aliyun-lc-upload/assets/static/og-default.png",
-        question_source_link:
-            "https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/",
-        post_count: 200,
-        pass_rate: 0.6,
-        post_time: "2021-10-02 00:00:00"
-    },
-    {
-        id: 3,
-        cn_name: "整数反转",
-        en_name: "Reverse Integer",
-        difficulty: 1,
-        question_source: "LeetCode",
-        question_icon:
-            "https://assets.leetcode-cn.com/aliyun-lc-upload/assets/static/og-default.png",
-        question_source_link:
-            "https://leetcode-cn.com/problems/reverse-integer/",
-        post_count: 150,
-        pass_rate: 0.7,
-        post_time: "2021-10-03 00:00:00"
-    },
-    {
-        id: 4,
-        cn_name: "回文数",
-        en_name: "Palindrome Number",
-        difficulty: 1,
-        question_source: "LeetCode",
-        question_icon:
-            "https://assets.leetcode-cn.com/aliyun-lc-upload/assets/static/og-default.png",
-        question_source_link:
-            "https://leetcode-cn.com/problems/palindrome-number/",
-        post_count: 120,
-        pass_rate: 0.8,
-        post_time: "2021-10-04 00:00:00"
-    },
-    {
-        id: 5,
-        cn_name: "盛最多水的容器",
-        en_name: "Container With Most Water",
-        difficulty: 2,
-        question_source: "LeetCode",
-        question_icon:
-            "https://assets.leetcode-cn.com/aliyun-lc-upload/assets/static/og-default.png",
-        question_source_link:
-            "https://leetcode-cn.com/problems/container-with-most-water/",
-        post_count: 180,
-        pass_rate: 0.9,
-        post_time: "2021-10-05 00:00:00"
-    },
-    {
-        id: 6,
-        cn_name: "整数转罗马数字",
-        en_name: "Integer to Roman",
-        difficulty: 2,
-        question_source: "LeetCode",
-        question_icon:
-            "https://assets.leetcode-cn.com/aliyun-lc-upload/assets/static/og-default.png",
-        question_source_link:
-            "https://leetcode-cn.com/problems/integer-to-roman/",
-        post_count: 90,
-        pass_rate: 0.7,
-        post_time: "2021-10-06 00:00:00"
-    },
-    {
-        id: 7,
-        cn_name: "罗马数字转整数",
-        en_name: "Roman to Integer",
-        difficulty: 1,
-        question_source: "LeetCode",
-        question_icon:
-            "https://assets.leetcode-cn.com/aliyun-lc-upload/assets/static/og-default.png",
-        question_source_link:
-            "https://leetcode-cn.com/problems/roman-to-integer/",
-        post_count: 80,
-        pass_rate: 0.6,
-        post_time: "2021-10-07 00:00:00"
-    },
-    {
-        id: 7,
-        cn_name: "罗马数字转整数",
-        en_name: "Roman to Integer",
-        difficulty: 1,
-        question_source: "LeetCode",
-        question_icon:
-            "https://assets.leetcode-cn.com/aliyun-lc-upload/assets/static/og-default.png",
-        question_source_link:
-            "https://leetcode-cn.com/problems/roman-to-integer/",
-        post_count: 80,
-        pass_rate: 0.6,
-        post_time: "2021-10-07 00:00:00"
-    },
-    {
-        id: 7,
-        cn_name: "罗马数字转整数",
-        en_name: "Roman to Integer",
-        difficulty: 1,
-        question_source: "LeetCode",
-        question_icon:
-            "https://assets.leetcode-cn.com/aliyun-lc-upload/assets/static/og-default.png",
-        question_source_link:
-            "https://leetcode-cn.com/problems/roman-to-integer/",
-        post_count: 80,
-        pass_rate: 0.6,
-        post_time: "2021-10-07 00:00:00"
-    },
-    {
-        id: 7,
-        cn_name: "罗马数字转整数",
-        en_name: "Roman to Integer",
-        difficulty: 1,
-        question_source: "LeetCode",
-        question_icon:
-            "https://assets.leetcode-cn.com/aliyun-lc-upload/assets/static/og-default.png",
-        question_source_link:
-            "https://leetcode-cn.com/problems/roman-to-integer/",
-        post_count: 80,
-        pass_rate: 0.6,
-        post_time: "2021-10-07 00:00:00"
-    },
-    {
-        id: 7,
-        cn_name: "罗马数字转整数",
-        en_name: "Roman to Integer",
-        difficulty: 1,
-        question_source: "LeetCode",
-        question_icon:
-            "https://assets.leetcode-cn.com/aliyun-lc-upload/assets/static/og-default.png",
-        question_source_link:
-            "https://leetcode-cn.com/problems/roman-to-integer/",
-        post_count: 80,
-        pass_rate: 0.6,
-        post_time: "2021-10-07 00:00:00"
-    },
-    {
-        id: 7,
-        cn_name: "罗马数字转整数",
-        en_name: "Roman to Integer",
-        difficulty: 1,
-        question_source: "LeetCode",
-        question_icon:
-            "https://assets.leetcode-cn.com/aliyun-lc-upload/assets/static/og-default.png",
-        question_source_link:
-            "https://leetcode-cn.com/problems/roman-to-integer/",
-        post_count: 80,
-        pass_rate: 0.6,
-        post_time: "2021-10-07 00:00:00"
-    },
-    {
-        id: 7,
-        cn_name: "罗马数字转整数",
-        en_name: "Roman to Integer",
-        difficulty: 1,
-        question_source: "LeetCode",
-        question_icon:
-            "https://assets.leetcode-cn.com/aliyun-lc-upload/assets/static/og-default.png",
-        question_source_link:
-            "https://leetcode-cn.com/problems/roman-to-integer/",
-        post_count: 80,
-        pass_rate: 0.6,
-        post_time: "2021-10-07 00:00:00"
-    },
-    {
-        id: 7,
-        cn_name: "罗马数字转整数",
-        en_name: "Roman to Integer",
-        difficulty: 1,
-        question_source: "LeetCode",
-        question_icon:
-            "https://assets.leetcode-cn.com/aliyun-lc-upload/assets/static/og-default.png",
-        question_source_link:
-            "https://leetcode-cn.com/problems/roman-to-integer/",
-        post_count: 80,
-        pass_rate: 0.6,
-        post_time: "2021-10-07 00:00:00"
-    },
-    {
-        id: 7,
-        cn_name: "罗马数字转整数",
-        en_name: "Roman to Integer",
-        difficulty: 1,
-        question_source: "LeetCode",
-        question_icon:
-            "https://assets.leetcode-cn.com/aliyun-lc-upload/assets/static/og-default.png",
-        question_source_link:
-            "https://leetcode-cn.com/problems/roman-to-integer/",
-        post_count: 80,
-        pass_rate: 0.6,
-        post_time: "2021-10-07 00:00:00"
-    },
-    {
-        id: 7,
-        cn_name: "罗马数字转整数",
-        en_name: "Roman to Integer",
-        difficulty: 1,
-        question_source: "LeetCode",
-        question_icon:
-            "https://assets.leetcode-cn.com/aliyun-lc-upload/assets/static/og-default.png",
-        question_source_link:
-            "https://leetcode-cn.com/problems/roman-to-integer/",
-        post_count: 80,
-        pass_rate: 0.6,
-        post_time: "2021-10-07 00:00:00"
+        id: "1",
+        title: "题目名称",
+        description: "题目描述",
+        difficulty: 0,
+        required: "样例输出"
     }
-]
+])
 
+/**
+ *
+ * 获取题目列表
+ *
+ */
+const getQuestionList = async () => {
+    const data:
+        | GlobalType.TPageParams<Store.QuestionStore.QuestionInfo[]>
+        | NonNullable<unknown> = await questionStore.getQuestionList(pageInfo)
+    pageInfo.total = (
+        data as GlobalType.TPageParams<Store.QuestionStore.QuestionInfo[]>
+    ).total
+
+    list.value = (
+        data as GlobalType.TPageParams<Store.QuestionStore.QuestionInfo[]>
+    ).data
+}
+
+watchEffect(async () => {
+    await getQuestionList()
+})
+
+/**
+ * 跳转到题目详情页
+ * @param e 事件对象
+ */
 const gotoQuestionDetail = (e: InputEventDefinition) => {
     $router.push(`/online-judge/${e.target.dataset.id}`)
 }
@@ -253,69 +70,30 @@ const gotoQuestionDetail = (e: InputEventDefinition) => {
                 v-for="question in list"
                 :key="question.id"
                 class="cursor-pointer py-5 hover:bg-gray-50"
-                :title="question.cn_name"
+                :title="question.title"
                 :data-id="question.id"
             >
                 <div class="flex justify-between gap-x-6 pointer-events-none">
                     <div class="flex min-w-0 gap-x-4">
-                        <img
-                            class="h-12 w-12 flex-none rounded-full bg-black"
-                            :src="question.question_icon"
-                            :alt="question.question_source"
-                        />
                         <div class="min-w-0 flex-auto">
-                            <p
+                            <h2
                                 class="text-sm font-semibold leading-6 text-gray-900"
                             >
-                                {{ question.cn_name }}
-                            </p>
+                                {{ question.title }}
+                            </h2>
                             <p
-                                class="mt-1 truncate text-xs leading-5 text-gray-500"
+                                class="description w-full overflow-hidden overflow-ellipsis"
                             >
-                                <span class="post-count">
-                                    总调用次数：
-                                    <b class="text-[#0094ff]">
-                                        {{ question.post_count }}
-                                    </b>
-                                </span>
-                                <span class="pass-rate ml-[10px]">
-                                    通过率：
-                                    <b class="text-[#0094ff]">
-                                        {{ question.pass_rate * 100 }} %
-                                    </b>
-                                </span>
+                                {{ question.description }}
                             </p>
                         </div>
                     </div>
                     <div
                         class="hidden shrink-0 sm:flex sm:flex-col sm:items-end"
                     >
-                        <p class="text-sm leading-6 text-gray-900">
-                            来源：{{ question.question_source }}
-                        </p>
-                        <p
-                            v-if="question.post_time"
-                            class="mt-1 text-xs leading-5 text-gray-500"
-                        >
-                            上线时间：
-                            <time :datetime="question.post_time"
-                                >{{
-                                    moment(question.post_time).format(
-                                        "YYYY-MM-DD"
-                                    )
-                                }}
-                            </time>
-                        </p>
-                        <div v-else class="mt-1 flex items-center gap-x-1.5">
-                            <div
-                                class="flex-none rounded-full bg-emerald-500/20 p-1"
-                            >
-                                <div
-                                    class="h-1.5 w-1.5 rounded-full bg-emerald-500"
-                                />
-                            </div>
+                        <div class="mt-1 flex items-center gap-x-1.5">
                             <p class="text-xs leading-5 text-gray-500">
-                                进行中
+                                难度：{{ question.difficulty }}
                             </p>
                         </div>
                     </div>
@@ -323,10 +101,11 @@ const gotoQuestionDetail = (e: InputEventDefinition) => {
             </li>
         </ul>
         <a-pagination
-            :total="list.length"
-            :current="pageInfo.current"
             class="flex-center"
+            :total="pageInfo.total"
+            :current="pageInfo.current"
             :page-size="pageInfo.pageSize"
+            @change="(page: number) => (pageInfo.current = page)"
         />
     </div>
 </template>

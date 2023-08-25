@@ -20,4 +20,9 @@ public class UserTokenPayload {
      * 用户名
      */
     private String username;
+
+    /**
+     * 用户角色
+     */
+    private String role;
 }

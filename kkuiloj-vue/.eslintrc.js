@@ -1,7 +1,8 @@
 module.exports = {
     root: true,
     env: {
-        node: true
+        node: true,
+        es6: true
     },
     extends: [
         "plugin:vue/vue3-essential",
@@ -9,6 +10,14 @@ module.exports = {
         "@vue/typescript/recommended",
         "plugin:prettier/recommended"
     ],
+    settings: {
+        "import/resolver": {
+            alias: {
+                map: [["@", "./src"]],
+                extensions: [".js", ".jsx", ".json", ".vue", ".ts"]
+            }
+        }
+    },
     parserOptions: {
         ecmaVersion: 2020
     },

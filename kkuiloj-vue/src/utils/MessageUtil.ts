@@ -1,5 +1,5 @@
-import type {MessageConfig} from "@arco-design/web-vue"
-import {Message} from "@arco-design/web-vue"
+import type { MessageConfig } from "@arco-design/web-vue"
+import { Message } from "@arco-design/web-vue"
 
 export const DEFAULT_DURATION = 3000
 

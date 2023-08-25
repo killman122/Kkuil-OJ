@@ -16,6 +16,28 @@ export const addQuestion = (
 }
 
 /**
+ * @description: 获取题目列表
+ * @param params 分页查询参数
+ */
+export const listQuestion = (
+    params: GlobalType.TPageParams<string>
+): Promise<
+    GlobalType.Result<
+        GlobalType.TPageParams<Store.QuestionStore.QuestionInfo[]>
+    >
+> => {
+    return request({
+        url: "/question/list",
+        method: "GET",
+        params: {
+            current: params.current,
+            pageSize: params.pageSize,
+            id: params.data
+        }
+    })
+}
+
+/**
  * @description: 获取题目难度列表
  */
 export const listQuestionDifficulty = (): Promise<
