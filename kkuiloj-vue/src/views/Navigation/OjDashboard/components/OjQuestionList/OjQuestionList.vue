@@ -82,7 +82,7 @@ const gotoQuestionDetail = (e: InputEventDefinition) => {
                                 {{ question.title }}
                             </h2>
                             <p
-                                class="description w-full overflow-hidden overflow-ellipsis"
+                                class="description w-full overflow-hidden overflow-ellipsis line-clamp-2"
                             >
                                 {{ question.description }}
                             </p>

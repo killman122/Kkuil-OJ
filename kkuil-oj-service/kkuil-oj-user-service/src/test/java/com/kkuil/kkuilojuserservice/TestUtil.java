@@ -14,10 +14,8 @@ class TestUtil {
 
     @Test
     void contextLoads() {
-        String username = encryptor.encrypt("root");
-        String database = encryptor.encrypt("db_kkuiloj");
-        System.out.println(username);
-        System.out.println(database);
+        String email = encryptor.encrypt("Kkuil");
+        System.out.println(email);
     }
 
     @Test

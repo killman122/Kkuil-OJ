@@ -11,6 +11,7 @@ import com.kkuil.common.utils.ResultUtil;
 import com.kkuil.kkuilojquestionservice.model.dto.AddQuestionDTO;
 import com.kkuil.kkuilojquestionservice.model.dto.UpdateQuestionDTO;
 import com.kkuil.kkuilojquestionservice.model.entity.TbQuestion;
+import com.kkuil.kkuilojquestionservice.model.vo.QuestionDetailVO;
 import com.kkuil.kkuilojquestionservice.service.ITbQuestionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -157,12 +158,11 @@ public class QuestionManageController {
      * @description 查询问题
      */
     @GetMapping("/{id}")
-    @AuthAdmin
     @Operation(summary = "查询问题", description = "查询问题")
     @Parameter(name = "id", description = "查询问题数据传输对象")
-    public ResultUtil<TbQuestion> select(@PathVariable("id") Long id) {
-        return ResultUtil.success("查询成功", questionService.getById(id));
+    public ResultUtil<QuestionDetailVO> select(@PathVariable("id") Long id) {
+        TbQuestion question = questionService.getById(id);
+        QuestionDetailVO questionDetailVO = BeanUtil.copyProperties(question, QuestionDetailVO.class);
+        return ResultUtil.success("查询成功", questionDetailVO);
     }
-
-
 }

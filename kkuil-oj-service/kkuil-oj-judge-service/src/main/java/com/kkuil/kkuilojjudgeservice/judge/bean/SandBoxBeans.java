@@ -6,7 +6,7 @@ import com.kkuil.kkuilojjudgeservice.judge.factory.AbstractSandBoxJudgeFactory;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -17,10 +17,10 @@ import java.util.Map;
  * @Date 2023/8/14 0:57
  * @Description 沙箱bean
  */
-@Component
+@Configuration
 @AllArgsConstructor
 @Slf4j
-public class SandBoxBean {
+public class SandBoxBeans {
 
     public static final String SANDBOX_FACTORY_MAP_PATH = "classpath:sandbox-factory-map.properties";
 

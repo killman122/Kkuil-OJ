@@ -1,59 +1,67 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ref } from "vue"
+import moment from "moment"
+import { useRoute, useRouter } from "vue-router"
+import { getQuestionDetail } from "@/api/question"
+import QuestionDetailInfo = GlobalType.QuestionDetailInfo
+
+const $route = useRoute()
+const $router = useRouter()
+
+// 问题日期格式
+const QUESTION_DATE_FORMAT = "YYYY-MM-DD"
+
+// 问题详情
+const questionDetail = ref<QuestionDetailInfo>({
+    id: "",
+    title: "",
+    description: "",
+    difficulty: 0,
+    modifiedTime: "",
+    required: ""
+})
+
+/**
+ * @description  获取问题详情
+ */
+const getQuestionDesc = async () => {
+    const id = $route.params.id as string
+    const result = await getQuestionDetail(id)
+    if (!result.data) {
+        await $router.replace({
+            name: "not-found"
+        })
+    }
+    questionDetail.value = result.data
+}
+
+getQuestionDesc()
+</script>
 
 <template>
     <div
         class="question-desc px-[15px] h-[calc(100vh-60px)] overflow-y-scroll hide-scrollbar"
     >
         <aside class="desc-top border-b-[1px] py-[10px]">
-            <h1 class="desc-title font-bold text-[30px] mb-[10px]">两数之和</h1>
+            <h1 class="desc-title font-bold text-[30px] mb-[10px]">
+                {{ questionDetail.title }}
+            </h1>
             <h2 class="text-[#ccc] text-[13px]">
-                <span class="last-modified"> 最后修改于: 2021-06-01 </span>
+                <span class="last-modified">
+                    最后修改于:{{
+                        moment(questionDetail.modifiedTime).format(
+                            QUESTION_DATE_FORMAT
+                        )
+                    }}
+                </span>
+                <span class="question-difficulty">
+                    难度: {{ questionDetail.difficulty }}
+                </span>
             </h2>
         </aside>
         <main class="desc-main py-[10px]">
             <p class="text-[16px] leading-[30px]">
-                一般来讲, 我们都必须务必慎重的考虑考虑. 既然如此, 我认为,
-                我们一般认为, 抓住了问题的关键, 其他一切则会迎刃而解.
-                所谓随机一段废话, 关键是随机一段废话需要如何写.
-                对我个人而言，随机一段废话不仅仅是一个重大的事件，还可能会改变我的人生.
-                问题的关键究竟为何? 我们不妨可以这样来想:
-                赫尔普斯说过一句著名的话,
-                有时候读书是一种巧妙地避开思考的方法。这似乎解答了我的疑惑. 随
-                随机一段废话因何而发生?就我个人来说, 随机一段废话对我的意义,
-                不能不说非常重大. 我们一般认为, 抓住了问题的关键,
-                其他一切则会迎刃而解.随机一段废话因何而发生?我们不得不面对一个非常尴尬的事实,
-                那就是, 我们一般认为, 抓住了问题的关键, 其他一切则会迎刃而解.
-                每个人都不得不面对这些问题. 在面对这种问题时,
-                随机一段废话因何而发生?这是不可避免的.
-                本人也是经过了深思熟虑,在每个日 马云在不经意间这样说过,
-                最大的挑战和突破在于用人，而用人最大的突破在于信任人。这不禁令我深思.
-                杰纳勒尔·乔治·S·巴顿说过一句著名的话,
-                接受挑战，就可以享受胜利的喜悦。这似乎解答了我的疑惑.
-                这是不可避免的. 要想清楚, 随机一段废话, 到底是一种怎么样的存在.
-                这是不可避免的.
-                本人也是经过了深思熟虑,在每个日日夜夜思考这个问题. 我们都知道,
-                只要有意义, 那么就必须慎重考虑 一般来讲,
-                我们都必须务必慎重的考虑考虑. 既然如此, 我认为, 我们一般认为,
-                抓住了问题的关键, 其他一切则会迎刃而解. 所谓随机一段废话,
-                关键是随机一段废话需要如何写.
-                对我个人而言，随机一段废话不仅仅是一个重大的事件，还可能会改变我的人生.
-                问题的关键究竟为何? 我们不妨可以这样来想:
-                赫尔普斯说过一句著名的话,
-                有时候读书是一种巧妙地避开思考的方法。这似乎解答了我的疑惑. 随
-                随机一段废话因何而发生?就我个人来说, 随机一段废话对我的意义,
-                不能不说非常重大. 我们一般认为, 抓住了问题的关键,
-                其他一切则会迎刃而解.随机一段废话因何而发生?我们不得不面对一个非常尴尬的事实,
-                那就是, 我们一般认为, 抓住了问题的关键, 其他一切则会迎刃而解.
-                每个人都不得不面对这些问题. 在面对这种问题时,
-                随机一段废话因何而发生?这是不可避免的.
-                本人也是经过了深思熟虑,在每个日 马云在不经意间这样说过,
-                最大的挑战和突破在于用人，而用人最大的突破在于信任人。这不禁令我深思.
-                杰纳勒尔·乔治·S·巴顿说过一句著名的话,
-                接受挑战，就可以享受胜利的喜悦。这似乎解答了我的疑惑.
-                这是不可避免的. 要想清楚, 随机一段废话, 到底是一种怎么样的存在.
-                这是不可避免的.
-                本人也是经过了深思熟虑,在每个日日夜夜思考这个问题. 我们都知道,
-                只要有意义, 那么就必须慎重考虑
+                {{ questionDetail.description }}
             </p>
         </main>
     </div>

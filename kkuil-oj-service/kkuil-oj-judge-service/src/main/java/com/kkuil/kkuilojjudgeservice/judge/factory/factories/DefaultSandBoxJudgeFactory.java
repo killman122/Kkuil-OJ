@@ -8,7 +8,7 @@ import com.kkuil.kkuilojjudgeservice.judge.model.dto.QuestionJudgeDTO;
  * @Date 2023/8/14 0:48
  * @Description 正确代码沙箱工厂
  */
-public class CorrectSandBoxJudgeFactory extends AbstractSandBoxJudgeFactory {
+public class DefaultSandBoxJudgeFactory extends AbstractSandBoxJudgeFactory {
     /**
      * 运行代码逻辑
      *

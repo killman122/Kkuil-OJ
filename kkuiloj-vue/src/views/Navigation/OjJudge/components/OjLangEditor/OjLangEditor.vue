@@ -75,7 +75,7 @@ const navInfo = reactive<NavigationProps>({
 })
 
 // 用户代码提交的信息
-const commitInfo = ref<GlobalType.CodeCommitInfo>({
+const commitInfo = ref<Parameters<typeof doJudge>[0]>({
     questionId: $route.params.id as string,
     code: `console.log('Hello, world!') \n dwadad`,
     lang: "javascript"
@@ -148,9 +148,7 @@ const handleCancel = () => {
  */
 const run = async () => {
     runInfo.isRunning = true
-    const result: GlobalType.Result<GlobalType.RunResult> = await doJudge(
-        commitInfo.value
-    )
+    const result = await doJudge(commitInfo.value)
     runInfo.isRunning = false
     if (result.data.execResult == "0") {
         MessageUtil.success("通过")

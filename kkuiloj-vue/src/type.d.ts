@@ -21,10 +21,21 @@ declare namespace GlobalType {
         execMemory: number
     }
 
+    // 代码提交信息
     type CodeCommitInfo = {
         questionId: string
         code: string
         lang: string
+    }
+
+    // 题目详情信息
+    type QuestionDetailInfo = {
+        id: string
+        title: string
+        description: string
+        difficulty: number
+        required: string
+        modifiedTime: string
     }
 
     // 分页查询参数类型

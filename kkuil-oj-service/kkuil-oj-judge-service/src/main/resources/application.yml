@@ -45,3 +45,8 @@ knife4j:
 logging:
     level:
         root: info
+docker:
+    email: ${self.docker.email}
+    username: ${self.docker.username}
+    password: ${self.docker.password}
+    host: ${self.docker.host}
